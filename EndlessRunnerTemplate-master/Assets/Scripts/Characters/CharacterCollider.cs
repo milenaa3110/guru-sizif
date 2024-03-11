@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
+using System.Diagnostics;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 /// <summary>
 /// Handles everything related to the collider of the character. This is actually an empty game object, NOT on the character prefab
@@ -11,6 +13,7 @@ using UnityEngine.AddressableAssets;
 public class CharacterCollider : MonoBehaviour
 {
 	static int s_HitHash = Animator.StringToHash("Hit");
+    static int s_FallHash = Animator.StringToHash("Fall");
     static int s_BlinkingValueHash;
 
     // Used mainly by by analytics, but not in an analytics ifdef block 
@@ -25,6 +28,8 @@ public class CharacterCollider : MonoBehaviour
         public int score;
         public float worldDistance;
     }
+
+    public TrackManager trackManager;
 
     public CharacterInputController controller;
 
@@ -61,6 +66,39 @@ public class CharacterCollider : MonoBehaviour
     protected const int k_ObstacleLayerIndex = 9;
     protected const int k_PowerupLayerIndex = 10;
     protected const float k_DefaultInvinsibleTime = 2f;
+
+
+    void OnEnable()
+    {
+        TrackSegment.OnPathDecision += HandlePathDecision;
+    }
+
+    void OnDisable()
+    {
+        TrackSegment.OnPathDecision -= HandlePathDecision;
+    }
+
+    private void HandlePathDecision(bool success)
+    {
+        if (!success)
+        {
+            // Trigger fall and handle character death
+            controller.currentLife = 0;
+            controller.character.animator.SetTrigger(s_FallHash);
+            FallIntoHole();
+
+            m_DeathData.character = controller.character.characterName;
+            m_DeathData.themeUsed = controller.trackManager.currentTheme.themeName;
+            m_DeathData.coins = controller.coins;
+            m_DeathData.premium = controller.premium;
+            m_DeathData.score = controller.trackManager.score;
+            m_DeathData.worldDistance = controller.trackManager.worldDistance;
+        }
+        else
+        {
+            // Handle successful path decision, if necessary
+        }
+    }
 
     protected void Start()
     {
@@ -100,36 +138,112 @@ public class CharacterCollider : MonoBehaviour
 		}
 	}
 
+    public void FallIntoHole()
+    {
+        StartCoroutine(FallRoutine());
+    }
+
+    private IEnumerator FallRoutine()
+    {
+        float fallDuration = 2f; // Duration of the fall in seconds
+        float fallDepth = -5f; // How deep the character falls
+        Vector3 startPosition = transform.position; // Starting position
+        Vector3 endPosition = new Vector3(startPosition.x, startPosition.y + fallDepth, startPosition.z); // End position after falling
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fallDuration)
+        {
+            // Move the character towards the end position over time
+            transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / fallDuration));
+            elapsedTime += Time.deltaTime; // Increment elapsed time
+            yield return null; // Wait for the next frame
+        }
+
+        transform.position = endPosition;
+    }
+
+    public void moveForward()
+    {
+        StartCoroutine(MoveForwardRoutine());
+    }
+
+    private IEnumerator MoveForwardRoutine()
+    {
+        UnityEngine.Debug.Log("MoveForwardRoutine started"); // Confirm the routine starts
+        float moveDuration = 1f; // Duration of the forward movement in seconds
+        float moveDistance = 50f; // How far the character moves forward
+        Vector3 startPosition = transform.position; // Starting position
+
+        Vector3 endPosition = startPosition + transform.forward * moveDistance; // Calculate end position
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < moveDuration)
+        {
+            transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / moveDuration));
+            elapsedTime += Time.deltaTime;
+            UnityEngine.Debug.Log($"Moving: {transform.position}"); // Log position for debugging
+            yield return null;
+        }
+        UnityEngine.Debug.Log("MoveForwardRoutine completed"); // Confirm the routine completes
+    }
+
+
+
+    IEnumerator CheckForLeftTurn()
+    {
+        yield return new WaitForSeconds(0.5f); // Short delay to give the player time to react
+
+        bool success = Input.gyro.rotationRateUnbiased.y < -0.8f; // Check for tilt to the left
+        
+
+
+        if (success)
+        {
+        }
+        else
+        {
+
+            
+        }
+    }
+
+
+
     protected void OnTriggerEnter(Collider c)
     {
+        
         if (c.gameObject.layer == k_CoinsLayerIndex)
 		{
 			if (magnetCoins.Contains(c.gameObject))
 				magnetCoins.Remove(c.gameObject);
 
 			if (c.GetComponent<Coin>().isPremium)
-            {
+			{
 				Addressables.ReleaseInstance(c.gameObject);
-                PlayerData.instance.premium += 1;
-                controller.premium += 1;
+				PlayerData.instance.premium += 1;
+				controller.premium += 1;
 				m_Audio.PlayOneShot(premiumSound);
 			}
-            else
-            {
+			else
+			{
 				Coin.coinPool.Free(c.gameObject);
-                PlayerData.instance.coins += 1;
+				PlayerData.instance.coins += 1;
 				controller.coins += 1;
 				m_Audio.PlayOneShot(coinSound);
-            }
-        }
-        else if(c.gameObject.layer == k_ObstacleLayerIndex)
-        {
-            if (m_Invincible || controller.IsCheatInvincible())
-                return;
+			}
+		}
+		else if (c.gameObject.layer == k_ObstacleLayerIndex)
+		{
+			if (m_Invincible || controller.IsCheatInvincible())
+				return;
 
-            controller.StopMoving();
+			controller.StopMoving();
 
 			c.enabled = false;
+
+			UnityEngine.Debug.Log(c.GetType());
 
             Obstacle ob = c.gameObject.GetComponent<Obstacle>();
 
@@ -139,8 +253,60 @@ public class CharacterCollider : MonoBehaviour
 			}
 			else
 			{
-			    Addressables.ReleaseInstance(c.gameObject);
+				Addressables.ReleaseInstance(c.gameObject);
 			}
+
+			if (TrackManager.instance.isTutorial)
+			{
+				m_TutorialHitObstacle = true;
+			}
+			else
+			{
+				controller.currentLife -= 1;
+			}
+
+			controller.character.animator.SetTrigger(s_HitHash);
+
+			if (controller.currentLife > 0)
+			{
+				m_Audio.PlayOneShot(controller.character.hitSound);
+				SetInvincible();
+			}
+			// The collision killed the player, record all data to analytics.
+			else
+			{
+				m_Audio.PlayOneShot(controller.character.deathSound);
+
+				m_DeathData.character = controller.character.characterName;
+				m_DeathData.themeUsed = controller.trackManager.currentTheme.themeName;
+                UnityEngine.Debug.Log(ob);
+                m_DeathData.obstacleType = ob.GetType().ToString();
+				
+				m_DeathData.coins = controller.coins;
+				m_DeathData.premium = controller.premium;
+				m_DeathData.score = controller.trackManager.score;
+				m_DeathData.worldDistance = controller.trackManager.worldDistance;
+
+			}
+		}
+		else if (c.gameObject.CompareTag("Hole")) {
+            if (m_Invincible || controller.IsCheatInvincible())
+                return;
+
+            controller.StopMoving();
+
+            c.enabled = false;
+
+            Obstacle ob = c.gameObject.GetComponent<Obstacle>();
+
+            if (ob != null)
+            {
+                ob.Impacted();
+            }
+            else
+            {
+                Addressables.ReleaseInstance(c.gameObject);
+            }
 
             if (TrackManager.instance.isTutorial)
             {
@@ -148,38 +314,59 @@ public class CharacterCollider : MonoBehaviour
             }
             else
             {
-                controller.currentLife -= 1;
+				controller.currentLife = 0;
             }
-
-            controller.character.animator.SetTrigger(s_HitHash);
-
-			if (controller.currentLife > 0)
-			{
-				m_Audio.PlayOneShot(controller.character.hitSound);
-                SetInvincible ();
-			}
-            // The collision killed the player, record all data to analytics.
-			else
-			{
-				m_Audio.PlayOneShot(controller.character.deathSound);
-
-				m_DeathData.character = controller.character.characterName;
-				m_DeathData.themeUsed = controller.trackManager.currentTheme.themeName;
-				m_DeathData.obstacleType = ob.GetType().ToString();
-				m_DeathData.coins = controller.coins;
-				m_DeathData.premium = controller.premium;
-				m_DeathData.score = controller.trackManager.score;
-				m_DeathData.worldDistance = controller.trackManager.worldDistance;
-
-			}
-        }
-        else if(c.gameObject.layer == k_PowerupLayerIndex)
-        {
-            Consumable consumable = c.GetComponent<Consumable>();
-            if(consumable != null)
+            
+            controller.character.animator.SetTrigger(s_FallHash);
+            FallIntoHole();
+            if (controller.currentLife > 0)
             {
-                controller.UseConsumable(consumable);
+                m_Audio.PlayOneShot(controller.character.hitSound);
+                SetInvincible();
             }
+            // The collision killed the player, record all data to analytics.
+            else
+            {
+                m_Audio.PlayOneShot(controller.character.deathSound);
+
+                m_DeathData.character = controller.character.characterName;
+                m_DeathData.themeUsed = controller.trackManager.currentTheme.themeName;
+                m_DeathData.obstacleType = ob.GetType().ToString();
+                m_DeathData.coins = controller.coins;
+                m_DeathData.premium = controller.premium;
+                m_DeathData.score = controller.trackManager.score;
+                m_DeathData.worldDistance = controller.trackManager.worldDistance;
+
+            }
+
+        }
+		else if (c.gameObject.layer == k_PowerupLayerIndex)
+		{
+			Consumable consumable = c.GetComponent<Consumable>();
+			if (consumable != null)
+			{
+				controller.UseConsumable(consumable);
+			}
+		}
+        else if (c.CompareTag("Left track Colider")) // Assuming you tag your segments appropriately
+        {
+
+            controller.StopMoving();
+            c.enabled = false;
+            controller.currentLife = 0;
+            //moveForward();
+            // Directly add to the z position
+            transform.position += new Vector3(0, 0, 1.0f);
+
+            controller.character.animator.SetTrigger(s_FallHash);
+            FallIntoHole(); // Ensure this method properly handles the player's fall and potential game over logic
+            m_DeathData.character = controller.character.characterName;
+            m_DeathData.themeUsed = controller.trackManager.currentTheme.themeName;
+            m_DeathData.coins = controller.coins;
+            m_DeathData.premium = controller.premium;
+            m_DeathData.score = controller.trackManager.score;
+            m_DeathData.worldDistance = controller.trackManager.worldDistance;
+
         }
     }
 

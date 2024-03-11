@@ -243,13 +243,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'l_clavicle'\n\tTransform 'r_clavicle'\n\tTransform
-    'jaw'\n\tTransform 'l_rear_pinkie_01'\n\tTransform 'cog'\n\tTransform 'head'\n\tTransform
-    'neck'\n\tTransform 'r_rear_pinkie_01'\n\tTransform 'l_metatarsus'\n\tTransform
-    'r_humerus'\n\tand more ...\n\tFrom animation clip 'IdleBreath'\n\tFrom animation
-    clip 'IdleSnuff'\n\tFrom animation clip 'Roar'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

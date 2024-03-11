@@ -10,13 +10,19 @@ using UnityEditor;
 /// </summary>
 public class TrackSegment : MonoBehaviour
 {
-    public Transform pathParent;
+    public Transform[] pathParents;
+
     public TrackManager manager;
 
 	public Transform objectRoot;
 	public Transform collectibleTransform;
 
-    public AssetReference[] possibleObstacles; 
+    public AssetReference[] possibleObstacles;
+
+    public int selectedPathIndex = 0;
+
+    public delegate void PathDecisionEvent(bool success);
+    public static event PathDecisionEvent OnPathDecision;
 
     [HideInInspector]
     public float[] obstaclePositions;
@@ -25,7 +31,24 @@ public class TrackSegment : MonoBehaviour
 
     protected float m_WorldLength;
 
-    void OnEnable()
+    void Update()
+    {
+        
+        // Check if the current segment allows for a path change
+        if (gameObject.name.Contains("Turn left"))
+        {
+            bool success = Input.gyro.rotationRateUnbiased.y < -0.8f;
+            
+            // Detect left tilt
+            if (success) // Adjust sensitivity as needed
+            {
+                // Assuming you have a method to change to the left path
+                selectedPathIndex = 0;
+            }
+        }
+    }
+
+        void OnEnable()
     {
         UpdateWorldLength();
 
@@ -50,19 +73,19 @@ public class TrackSegment : MonoBehaviour
 	public void GetPointAt(float t, out Vector3 pos, out Quaternion rot)
     {
         float clampedT = Mathf.Clamp01(t);
-        float scaledT = (pathParent.childCount - 1) * clampedT;
+        float scaledT = (pathParents[selectedPathIndex].childCount - 1) * clampedT;
         int index = Mathf.FloorToInt(scaledT);
         float segmentT = scaledT - index;
 
-        Transform orig = pathParent.GetChild(index);
-        if (index == pathParent.childCount - 1)
+        Transform orig = pathParents[selectedPathIndex].GetChild(index);
+        if (index == pathParents[selectedPathIndex].childCount - 1)
         {
             pos = orig.position;
             rot = orig.rotation;
             return;
         }
 
-        Transform target = pathParent.GetChild(index + 1);
+        Transform target = pathParents[selectedPathIndex].GetChild(index + 1);
 
         pos = Vector3.Lerp(orig.position, target.position, segmentT);
         rot = Quaternion.Lerp(orig.rotation, target.rotation, segmentT);
@@ -72,10 +95,10 @@ public class TrackSegment : MonoBehaviour
     {
         m_WorldLength = 0;
 
-        for (int i = 1; i < pathParent.childCount; ++i)
+        for (int i = 1; i < pathParents[selectedPathIndex].childCount; ++i)
         {
-            Transform orig = pathParent.GetChild(i - 1);
-            Transform end = pathParent.GetChild(i);
+            Transform orig = pathParents[selectedPathIndex].GetChild(i - 1);
+            Transform end = pathParents[selectedPathIndex].GetChild(i);
 
             Vector3 vec = end.position - orig.position;
             m_WorldLength += vec.magnitude;
@@ -97,17 +120,24 @@ public class TrackSegment : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        if (pathParent == null)
+        if (pathParents == null || pathParents.Length == 0)
             return;
 
         Color c = Gizmos.color;
         Gizmos.color = Color.red;
-        for (int i = 1; i < pathParent.childCount; ++i)
+        foreach (Transform pathParent in pathParents)
         {
-            Transform orig = pathParent.GetChild(i - 1);
-            Transform end = pathParent.GetChild(i);
+            if (pathParent == null) continue;
 
-            Gizmos.DrawLine(orig.position, end.position);
+            // Draw the path
+            Gizmos.color = pathParent == pathParents[selectedPathIndex] ? Color.green : Color.red;
+            for (int i = 1; i < pathParent.childCount; ++i)
+            {
+                Transform orig = pathParent.GetChild(i - 1);
+                Transform end = pathParent.GetChild(i);
+
+                Gizmos.DrawLine(orig.position, end.position);
+            }
         }
 
         Gizmos.color = Color.blue;

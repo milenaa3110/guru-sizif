@@ -48,15 +48,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f119face70eef45923442a053ff451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathParent: {fileID: 840786970850423860}
+  pathParents:
+  - {fileID: 840786970850423860}
   manager: {fileID: 0}
   objectRoot: {fileID: 0}
   collectibleTransform: {fileID: 0}
-  possibleObstacles:
-  - m_AssetGUID: 4a3c333e09b51a84a937106421c81d9d
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  possibleObstacles: []
+  selectedPathIndex: 0
   obstaclePositions:
   - 0.5
 --- !u!23 &6399934790614700056

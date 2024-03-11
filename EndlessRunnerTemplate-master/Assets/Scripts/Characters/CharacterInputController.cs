@@ -103,6 +103,15 @@ public class CharacterInputController : MonoBehaviour
 
     public void Init()
     {
+        if (SystemInfo.supportsGyroscope)
+        {
+            Input.gyro.enabled = true;
+        }
+        else
+        {
+            Debug.LogWarning("Gyroscope not supported on this device.");
+        }
+
         transform.position = k_StartingPosition;
 		m_TargetPosition = Vector3.zero;
 
@@ -200,6 +209,22 @@ public class CharacterInputController : MonoBehaviour
 		}
 #else
         // Use touch input on mobile
+
+        //TrackSegment currentSegment = trackManager.getCurrentSegment();
+        //if (currentSegment != null)
+        //{
+        //    Vector3 endPoint;
+        //    Quaternion endRotation;
+
+        //    currentSegment.GetPointAt(1.0f, out endPoint, out endRotation);
+            
+        //    character.transform.LookAt(endPoint);
+
+        //}
+
+
+
+
         if (Input.touchCount == 1)
         {
 			if(m_IsSwiping)
@@ -255,7 +280,28 @@ public class CharacterInputController : MonoBehaviour
 
         Vector3 verticalTargetPosition = m_TargetPosition;
 
-		if (m_Sliding)
+        //if (SystemInfo.supportsGyroscope && m_IsRunning)
+        //{
+        //    // Read the gyroscope's rotation rate
+        //    float rotationRateY = Input.gyro.rotationRateUnbiased.y;
+
+        //    // Determine the sensitivity of tilting to change lanes
+        //    float sensitivity = 0.8f; // Adjust this value based on testing
+
+        //    // Change lane based on tilt direction and sensitivity
+        //    if (rotationRateY > sensitivity)
+        //    {
+        //        // Tilted right
+        //        ChangeLane(1);
+        //    }
+        //    else if (rotationRateY < -sensitivity)
+        //    {
+        //        // Tilted left
+        //        ChangeLane(-1);
+        //    }
+        //}
+        
+        if (m_Sliding)
 		{
             // Slide time isn't constant but the slide length is (even if slightly modified by speed, to slide slightly further when faster).
             // This is for gameplay reason, we don't want the character to drasticly slide farther when at max speed.

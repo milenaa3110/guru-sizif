@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Hole
+  - Left track
+  - Left track Colider
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - Coins
   - Obstacle
   - Powerup
-  - 
+  - Terrain
   - 
   - 
   - 

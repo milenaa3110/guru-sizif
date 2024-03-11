@@ -28,7 +28,7 @@ public class PatrollingObstacle : Obstacle
 
     protected const float k_LaneOffsetToFullWidth = 2f;
 
-	public override IEnumerator Spawn(TrackSegment segment, float t)
+    public override IEnumerator Spawn(TrackSegment segment, float t)
 	{
 		Vector3 position;
 		Quaternion rotation;
@@ -47,12 +47,12 @@ public class PatrollingObstacle : Obstacle
 
         PatrollingObstacle po = obj.GetComponent<PatrollingObstacle>();
         po.m_Segement = segment;
-        //TODO : remove that hack related to #issue7
-        Vector3 oldPos = obj.transform.position;
-        obj.transform.position += Vector3.back;
-        obj.transform.position = oldPos;
+		//TODO : remove that hack related to #issue7
+		Vector3 oldPos = obj.transform.position;
+		oldPos.y = -1.5f;
+		obj.transform.position = oldPos;
 
-        po.Setup();
+		po.Setup();
     }
 
     public override void Setup()

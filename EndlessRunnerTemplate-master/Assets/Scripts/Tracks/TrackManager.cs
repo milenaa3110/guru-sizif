@@ -7,6 +7,7 @@ using UnityEngine.Analytics;
 using UnityEngine.ResourceManagement;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using GameObject = UnityEngine.GameObject;
+using System;
 
 #if UNITY_ANALYTICS
 using UnityEngine.Analytics;
@@ -46,6 +47,9 @@ public class TrackManager : MonoBehaviour
     public float laneOffset = 1.0f;
 
     public bool invincible = false;
+
+    public bool allowSegmentTransition = true;
+
 
     [Header("Objects")]
     public ConsumableDatabase consumableDatabase;
@@ -128,7 +132,8 @@ public class TrackManager : MonoBehaviour
     protected const int k_DesiredSegmentCount = 10;
     protected const float k_SegmentRemovalDistance = -30f;
     protected const float k_Acceleration = 0.2f;
-
+    
+    Quaternion currentSceneRotation = Quaternion.identity;
     protected void Awake()
     {
         m_ScoreAccum = 0.0f;
@@ -144,7 +149,7 @@ public class TrackManager : MonoBehaviour
     }
 
     public void StopMove()
-    {
+    { 
         m_IsMoving = false;
     }
 
@@ -180,9 +185,9 @@ public class TrackManager : MonoBehaviour
             m_CameraOriginalPos = Camera.main.transform.position;
 
             if (m_TrackSeed != -1)
-                Random.InitState(m_TrackSeed);
+                UnityEngine.Random.InitState(m_TrackSeed);
             else
-                Random.InitState((int)System.DateTime.Now.Ticks);
+                    UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
 
             // Since this is not a rerun, init the whole system (on rerun we want to keep the states we had on death)
             m_CurrentSegmentDistance = k_StartingSegmentDistance;
@@ -300,6 +305,35 @@ public class TrackManager : MonoBehaviour
 
     private int _parallaxRootChildren = 0;
     private int _spawnedSegments = 0;
+
+
+    public void HandleFailedTurn()
+    {
+        // Prevent new segments from being spawned and stop transitions
+        allowSegmentTransition = false;
+    }
+
+    public void ResumeGameAfterFailure()
+    {
+        // Allow segment transitions again
+        allowSegmentTransition = true;
+        // Potentially restart movement or handle game resume logic
+    }
+
+    public TrackSegment getCurrentSegment()
+    {
+        {
+            // Check if there are any segments in the list before accessing
+            if (m_Segments != null && m_Segments.Count > 0)
+                return m_Segments[0];
+            else
+                return null; // Return null or handle the case where there are no segments
+        }
+    }
+
+
+
+
     void Update()
     {
         while (_spawnedSegments < (m_IsTutorial ? 4 : k_DesiredSegmentCount))
@@ -314,7 +348,7 @@ public class TrackManager : MonoBehaviour
             {
                 float lastZ = parallaxRoot.childCount == 0 ? 0 : parallaxRoot.GetChild(parallaxRoot.childCount - 1).position.z + currentTheme.cloudMinimumDistance.z;
 
-                GameObject cloud = currentTheme.cloudPrefabs[Random.Range(0, currentTheme.cloudPrefabs.Length)];
+                GameObject cloud = currentTheme.cloudPrefabs[UnityEngine.Random.Range(0, currentTheme.cloudPrefabs.Length)];
                 if (cloud != null)
                 {
                     GameObject obj = Instantiate(cloud);
@@ -322,13 +356,13 @@ public class TrackManager : MonoBehaviour
 
                     obj.transform.localPosition =
                         Vector3.up * (currentTheme.cloudMinimumDistance.y +
-                                      (Random.value - 0.5f) * currentTheme.cloudSpread.y)
-                        + Vector3.forward * (lastZ + (Random.value - 0.5f) * currentTheme.cloudSpread.z)
+                                      (UnityEngine.Random.value - 0.5f) * currentTheme.cloudSpread.y)
+                        + Vector3.forward * (lastZ + (UnityEngine.Random.value - 0.5f) * currentTheme.cloudSpread.z)
                         + Vector3.right * (currentTheme.cloudMinimumDistance.x +
-                                           (Random.value - 0.5f) * currentTheme.cloudSpread.x);
+                                           (UnityEngine.Random.value - 0.5f) * currentTheme.cloudSpread.x);
 
-                    obj.transform.localScale = obj.transform.localScale * (1.0f + (Random.value - 0.5f) * 0.5f);
-                    obj.transform.localRotation = Quaternion.AngleAxis(Random.value * 360.0f, Vector3.up);
+                    obj.transform.localScale = obj.transform.localScale * (1.0f + (UnityEngine.Random.value - 0.5f) * 0.5f);
+                    obj.transform.localRotation = Quaternion.AngleAxis(UnityEngine.Random.value * 360.0f, Vector3.up);
                     _parallaxRootChildren++;
                 }
             }
@@ -350,6 +384,12 @@ public class TrackManager : MonoBehaviour
 
         if (m_CurrentSegmentDistance > m_Segments[0].worldLength)
         {
+
+            if (!allowSegmentTransition)
+            {
+                return; // Prevent further execution of segment transition logic
+            }
+
             m_CurrentSegmentDistance -= m_Segments[0].worldLength;
 
             // m_PastSegments are segment we already passed, we keep them to move them and destroy them later 
@@ -487,6 +527,10 @@ public class TrackManager : MonoBehaviour
     }
 
     private readonly Vector3 _offScreenSpawnPos = new Vector3(-100f, -100f, -100f);
+
+    private int straightSegmentsCount = 0;
+    private const int MinStraightBeforeTurn = 6;
+
     public IEnumerator SpawnNewSegment()
     {
         if (!m_IsTutorial)
@@ -495,8 +539,26 @@ public class TrackManager : MonoBehaviour
                 ChangeZone();
         }
 
-        int segmentUse = Random.Range(0, m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length);
+        int segmentUse = UnityEngine.Random.Range(0, m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length);
         if (segmentUse == m_PreviousSegment) segmentUse = (segmentUse + 1) % m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length;
+
+        bool isTurn = true;
+        if (isTurn && straightSegmentsCount < MinStraightBeforeTurn)
+        {
+            // Not enough straight segments have been spawned, force a straight segment instead
+            segmentUse = 0; // You'll need to implement this method
+            straightSegmentsCount++; // Increment because we are spawning a straight segment
+        }
+        else if (!isTurn)
+        {
+            // Increment the straight segments count
+            straightSegmentsCount++;
+        }
+        else
+        {
+            // It's a turn and we have enough straight segments
+            straightSegmentsCount = 0; // Reset the counter
+        }
 
         AsyncOperationHandle segmentToUseOp = m_CurrentThemeData.zones[m_CurrentZone].prefabList[segmentUse].InstantiateAsync(_offScreenSpawnPos, Quaternion.identity);
         yield return segmentToUseOp;
@@ -520,18 +582,54 @@ public class TrackManager : MonoBehaviour
         }
 
         newSegment.transform.rotation = currentExitRotation;
-
+        
         Vector3 entryPoint;
         Quaternion entryRotation;
         newSegment.GetPointAt(0.0f, out entryPoint, out entryRotation);
 
 
-        Vector3 pos = currentExitPoint + (newSegment.transform.position - entryPoint);
+        
+        Quaternion targetRotation = currentSceneRotation * currentExitRotation * Quaternion.Inverse(entryRotation);
+        newSegment.transform.rotation = targetRotation;
+
+        Vector3 difference = newSegment.transform.position - entryPoint;
+        Vector3 pos;
+        if (m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Left track") {
+            m_Segments[m_Segments.Count - 1].selectedPathIndex = 1;
+        }
+
+        if (newSegment.tag == "Left track" && m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Left track")
+        {
+            pos.x = currentExitPoint.x - difference.z;
+            pos.y = 0;
+            pos.z = currentExitPoint.z + difference.x;
+        }
+        else if (m_Segments.Count > 0 &&  m_Segments[m_Segments.Count - 1].tag == "Left track") {
+            pos.x = currentExitPoint.x + difference.z;
+            pos.y = 0;
+            pos.z = currentExitPoint.z - difference.x;
+        }
+        else
+        {
+            pos = currentExitPoint + difference;
+        }
+        
+  
         newSegment.transform.position = pos;
+
+
+
         newSegment.manager = this;
 
-        newSegment.transform.localScale = new Vector3((Random.value > 0.5f ? -1 : 1), 1, 1);
-        newSegment.objectRoot.localScale = new Vector3(1.0f / newSegment.transform.localScale.x, 1, 1);
+        //newSegment.transform.localScale = new Vector3((Random.value > 0.5f ? -1 : 1), 1, 1);
+        //newSegment.objectRoot.localScale = new Vector3(1.0f / newSegment.transform.localScale.x, 1, 1);
+        if (newSegment.tag == "Left track")
+        {
+            // Rotate scene left
+            //StartCoroutine(RotateScene(new Vector3(0, -90, 0), 1f)); // Adjust rotation and duration as needed
+            currentSceneRotation *= Quaternion.Euler(0, -90, 0);
+            Debug.Log("Left track");
+        }
 
         if (m_SafeSegementLeft <= 0)
         {
@@ -552,7 +650,7 @@ public class TrackManager : MonoBehaviour
         {
             for (int i = 0; i < segment.obstaclePositions.Length; ++i)
             {
-                AssetReference assetRef = segment.possibleObstacles[Random.Range(0, segment.possibleObstacles.Length)];
+                AssetReference assetRef = segment.possibleObstacles[UnityEngine.Random.Range(0, segment.possibleObstacles.Length)];
                 StartCoroutine(SpawnFromAssetReference(assetRef, segment, i));
             }
         }
@@ -573,13 +671,15 @@ public class TrackManager : MonoBehaviour
         }
     }
 
+
+
     public IEnumerator SpawnCoinAndPowerup(TrackSegment segment)
     {
         if (!m_IsTutorial)
         {
             const float increment = 1.5f;
             float currentWorldPos = 0.0f;
-            int currentLane = Random.Range(0, 3);
+            int currentLane = UnityEngine.Random.Range(0, 3);
 
             float powerupChance = Mathf.Clamp01(Mathf.Floor(m_TimeSincePowerup) * 0.5f * 0.001f);
             float premiumChance = Mathf.Clamp01(Mathf.Floor(m_TimeSinceLastPremium) * 0.5f * 0.0001f);
@@ -612,9 +712,9 @@ public class TrackManager : MonoBehaviour
 
 
                     GameObject toUse = null;
-                    if (Random.value < powerupChance)
+                    if (UnityEngine.Random.value < powerupChance)
                     {
-                        int picked = Random.Range(0, consumableDatabase.consumbales.Length);
+                        int picked = UnityEngine.Random.Range(0, consumableDatabase.consumbales.Length);
 
                         //if the powerup can't be spawned, we don't reset the time since powerup to continue to have a high chance of picking one next track segment
                         if (consumableDatabase.consumbales[picked].canBeSpawned)
@@ -634,7 +734,7 @@ public class TrackManager : MonoBehaviour
                             toUse.transform.SetParent(segment.transform, true);
                         }
                     }
-                    else if (Random.value < premiumChance)
+                    else if (UnityEngine.Random.value < premiumChance)
                     {
                         m_TimeSinceLastPremium = 0.0f;
                         premiumChance = 0.0f;
