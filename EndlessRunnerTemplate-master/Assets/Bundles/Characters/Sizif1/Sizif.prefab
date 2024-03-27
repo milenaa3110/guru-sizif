@@ -675,7 +675,7 @@ GameObject:
   - component: {fileID: 2337216724346192410}
   - component: {fileID: -3212677699776405535}
   m_Layer: 0
-  m_Name: Sizif0
+  m_Name: Sizif
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -691,7 +691,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7098260227729181001}
@@ -976,7 +976,7 @@ MonoBehaviour:
   cost: 0
   premiumCost: 0
   accessories: []
-  animator: {fileID: 0}
+  animator: {fileID: 8840158140681769318}
   icon: {fileID: 0}
   jumpSound: {fileID: 0}
   hitSound: {fileID: 0}
@@ -3119,9 +3119,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 7098260227729181001}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: 0.00000008195639, y: 1.6240691, z: 0.015775703}
+    m_Extent: {x: 0.10878274, y: 0.12448704, z: 0.07385715}
+  m_DirtyAABB: 0
 --- !u!1 &4445007968665450159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3377,9 +3377,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 7098260227729181001}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: -0.00014387816, y: 1.6316273, z: -0.033207234}
+    m_Extent: {x: 0.109259345, y: 0.13865262, z: 0.12387249}
+  m_DirtyAABB: 0
 --- !u!1 &4540052484194972943
 GameObject:
   m_ObjectHideFlags: 0
@@ -4521,9 +4521,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 7098260227729181001}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: 0, y: 0.8807791, z: 0.015510306}
+    m_Extent: {x: 0.7860415, y: 0.8807792, z: 0.15594816}
+  m_DirtyAABB: 0
 --- !u!1 &6703483293562519360
 GameObject:
   m_ObjectHideFlags: 0
