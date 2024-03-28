@@ -97,9 +97,22 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b17d4c3a192c59c4d861cc186db627bb
-    m_Address: Sizif0
+    m_Address: Sizif
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - characters
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b67f69b7a4c76464290ad90f738ccb84
+    m_Address: Alex
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - characters
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fbd576e607ce333498ed2bf6d54ad4cc
+    m_Address: domacica
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - characters
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 735e874f947d0e143a6b4e83f8a7283a, type: 2}

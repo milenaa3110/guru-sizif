@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2996572873296771348}
   - component: {fileID: 4374575146064522804}
   - component: {fileID: 6055489245536136511}
+  - component: {fileID: -7208257147143803623}
   m_Layer: 9
   m_Name: obstacle demon
   m_TagString: Untagged
@@ -45,7 +46,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 5535af957683c3f45a8bc62a85e3081d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -143,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4667c4f4d7e27554aa443a56067403a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impactedSound: {fileID: 0}
+  impactedSound: {fileID: 8300000, guid: 5535af957683c3f45a8bc62a85e3081d, type: 3}
   minTime: 2
   maxTime: 5
   animator: {fileID: 2939455721705000617}
@@ -171,6 +172,19 @@ CapsuleCollider:
   m_Height: 2.6638227
   m_Direction: 1
   m_Center: {x: 0, y: 2.4468153, z: 0}
+--- !u!114 &-7208257147143803623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781587693027916103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e38bebbdc31db468a604b05bd1d75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerGroup: SFXUnducked
 --- !u!1001 &1950713520905357259
 PrefabInstance:
   m_ObjectHideFlags: 0

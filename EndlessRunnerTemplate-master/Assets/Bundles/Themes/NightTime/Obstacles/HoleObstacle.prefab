@@ -54,7 +54,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.05, y: 0.05, z: 0.05}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &3424192649039854782
 AudioSource:
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d59b0cc5862004193dd9714fb61b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impactedSound: {fileID: 0}
+  impactedSound: {fileID: 8300000, guid: 7f7537617949fcd479e96e2953b62b03, type: 3}
 --- !u!1 &5867222188458532196
 GameObject:
   m_ObjectHideFlags: 0
