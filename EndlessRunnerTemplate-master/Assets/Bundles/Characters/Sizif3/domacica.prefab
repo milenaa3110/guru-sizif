@@ -213,9 +213,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 1768304328815246602}
   m_AABB:
-    m_Center: {x: 0.000000044703484, y: 1.6496706, z: 0.016000994}
-    m_Extent: {x: 0.106934145, y: 0.11921096, z: 0.07271221}
-  m_DirtyAABB: 0
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_DirtyAABB: 1
 --- !u!1 &86423431348837075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,9 +1395,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 1768304328815246602}
   m_AABB:
-    m_Center: {x: -0.000000014901161, y: 1.6345611, z: -0.034382846}
-    m_Extent: {x: 0.1532246, y: 0.16423446, z: 0.130256}
-  m_DirtyAABB: 0
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_DirtyAABB: 1
 --- !u!1 &2127847794256683044
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,7 +2362,6 @@ GameObject:
   - component: {fileID: 339102877481656703}
   - component: {fileID: 5983719799148282014}
   - component: {fileID: 7368815573858410391}
-  - component: {fileID: -4881842825779191367}
   m_Layer: 0
   m_Name: domacica
   m_TagString: Untagged
@@ -2380,7 +2379,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1768304328815246602}
@@ -2427,7 +2426,7 @@ Animator:
   m_GameObject: {fileID: 3656438226948298779}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 71685becf9edd0e418e7981e82ca3c5d, type: 2}
-  m_Controller: {fileID: 9100000, guid: 164ba59c886fc69468711a44e0b5c958, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2649,27 +2648,6 @@ MonoBehaviour:
       m_RotationOrder: 4
     CurveXRangeDegree: 90
     CurveYRangeDegree: 10
---- !u!114 &-4881842825779191367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3656438226948298779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 397d959cc2da2684c8109d35be73c4a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterName: domacica
-  cost: 0
-  premiumCost: 0
-  accessories: []
-  animator: {fileID: 8682271186189732960}
-  icon: {fileID: 21300000, guid: 12fe6533ec1f64e4a998f7e5d9162f54, type: 3}
-  jumpSound: {fileID: 0}
-  hitSound: {fileID: 0}
-  deathSound: {fileID: 0}
 --- !u!1 &3656970170986743075
 GameObject:
   m_ObjectHideFlags: 0
@@ -3963,9 +3941,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 1768304328815246602}
   m_AABB:
-    m_Center: {x: 0, y: 0.890942, z: -0.026072428}
-    m_Extent: {x: 0.78604156, y: 0.89094174, z: 0.25008202}
-  m_DirtyAABB: 0
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_DirtyAABB: 1
 --- !u!1 &6166075446970289937
 GameObject:
   m_ObjectHideFlags: 0
