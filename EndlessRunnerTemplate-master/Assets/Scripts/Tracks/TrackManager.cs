@@ -642,16 +642,22 @@ public class TrackManager : MonoBehaviour
 
         if (newSegmentCreated != null) newSegmentCreated.Invoke(newSegment);
     }
-
+    
+    
 
     public void SpawnObstacle(TrackSegment segment)
     {
         if (segment.possibleObstacles.Length != 0)
         {
+            segment.obstaclePositionsInWorld = new List<Vector3>(); // Add this line to initialize the list
             for (int i = 0; i < segment.obstaclePositions.Length; ++i)
             {
                 AssetReference assetRef = segment.possibleObstacles[UnityEngine.Random.Range(0, segment.possibleObstacles.Length)];
                 StartCoroutine(SpawnFromAssetReference(assetRef, segment, i));
+                Vector3 obstaclePos;
+                Quaternion obstacleRot;
+                segment.GetPointAt(segment.obstaclePositions[i], out obstaclePos, out obstacleRot);
+                segment.obstaclePositionsInWorld.Add(obstaclePos); // Add this line to store the obstacle position
             }
         }
 
@@ -710,57 +716,79 @@ public class TrackManager : MonoBehaviour
                 {
                     pos = pos + ((currentLane - 1) * laneOffset * (rot * Vector3.right));
 
-
-                    GameObject toUse = null;
-                    if (UnityEngine.Random.value < powerupChance)
+                    bool positionOccupiedByObstacle = false;
+                    if (segment.obstaclePositionsInWorld != null)
                     {
-                        int picked = UnityEngine.Random.Range(0, consumableDatabase.consumbales.Length);
-
-                        //if the powerup can't be spawned, we don't reset the time since powerup to continue to have a high chance of picking one next track segment
-                        if (consumableDatabase.consumbales[picked].canBeSpawned)
+                        foreach (Vector3 obstaclePos in segment.obstaclePositionsInWorld)
                         {
-                            // Spawn a powerup instead.
-                            m_TimeSincePowerup = 0.0f;
-                            powerupChance = 0.0f;
+                            if (Vector3.Distance(obstaclePos, pos) < 3.0f) // Promenite ovu vrednost prema potrebi
+                            {
+                                positionOccupiedByObstacle = true;
+                                break;
+                            }
+                        }
+                    }
 
-                            AsyncOperationHandle op = Addressables.InstantiateAsync(consumableDatabase.consumbales[picked].gameObject.name, pos, rot);
+                    if (!positionOccupiedByObstacle)
+                    {
+                        GameObject toUse = null;
+                        if (UnityEngine.Random.value < powerupChance)
+                        {
+                            int picked = UnityEngine.Random.Range(0, consumableDatabase.consumbales.Length);
+
+                            //if the powerup can't be spawned, we don't reset the time since powerup to continue to have a high chance of picking one next track segment
+                            if (consumableDatabase.consumbales[picked].canBeSpawned)
+                            {
+                                // Spawn a powerup instead.
+                                m_TimeSincePowerup = 0.0f;
+                                powerupChance = 0.0f;
+
+                                AsyncOperationHandle op =
+                                    Addressables.InstantiateAsync(
+                                        consumableDatabase.consumbales[picked].gameObject.name, pos, rot);
+                                yield return op;
+                                if (op.Result == null || !(op.Result is GameObject))
+                                {
+                                    Debug.LogWarning(string.Format("Unable to load consumable {0}.",
+                                        consumableDatabase.consumbales[picked].gameObject.name));
+                                    yield break;
+                                }
+
+                                toUse = op.Result as GameObject;
+                                toUse.transform.SetParent(segment.transform, true);
+                            }
+                        }
+                        else if (UnityEngine.Random.value < premiumChance)
+                        {
+                            m_TimeSinceLastPremium = 0.0f;
+                            premiumChance = 0.0f;
+
+                            AsyncOperationHandle op =
+                                Addressables.InstantiateAsync(currentTheme.premiumCollectible.name, pos, rot);
                             yield return op;
                             if (op.Result == null || !(op.Result is GameObject))
                             {
-                                Debug.LogWarning(string.Format("Unable to load consumable {0}.", consumableDatabase.consumbales[picked].gameObject.name));
+                                Debug.LogWarning(string.Format("Unable to load collectable {0}.",
+                                    currentTheme.premiumCollectible.name));
                                 yield break;
                             }
+
                             toUse = op.Result as GameObject;
                             toUse.transform.SetParent(segment.transform, true);
                         }
-                    }
-                    else if (UnityEngine.Random.value < premiumChance)
-                    {
-                        m_TimeSinceLastPremium = 0.0f;
-                        premiumChance = 0.0f;
-
-                        AsyncOperationHandle op = Addressables.InstantiateAsync(currentTheme.premiumCollectible.name, pos, rot);
-                        yield return op;
-                        if (op.Result == null || !(op.Result is GameObject))
+                        else
                         {
-                            Debug.LogWarning(string.Format("Unable to load collectable {0}.", currentTheme.premiumCollectible.name));
-                            yield break;
+                            toUse = Coin.coinPool.Get(pos, rot);
+                            toUse.transform.SetParent(segment.collectibleTransform, true);
                         }
-                        toUse = op.Result as GameObject;
-                        toUse.transform.SetParent(segment.transform, true);
-                    }
-                    else
-                    {
-                        toUse = Coin.coinPool.Get(pos, rot);
-                        toUse.transform.SetParent(segment.collectibleTransform, true);
-                    }
 
-                    if (toUse != null)
-                    {
-                        //TODO : remove that hack related to #issue7
-                        Vector3 oldPos = toUse.transform.position;
-                        toUse.transform.position += Vector3.back;
-                        toUse.transform.position = oldPos;
+                        if (toUse != null)
+                        {
+                            //TODO : remove that hack related to #issue7
+                            Vector3 oldPos = toUse.transform.position;
+                            toUse.transform.position += Vector3.back;
+                            toUse.transform.position = oldPos;
+                        }
                     }
                 }
 

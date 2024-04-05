@@ -51,21 +51,10 @@ MonoBehaviour:
   pathParents:
   - {fileID: 840786970850423860}
   manager: {fileID: 0}
+  obstaclePositionsInWorld: []
   objectRoot: {fileID: 0}
   collectibleTransform: {fileID: 0}
-  possibleObstacles:
-  - m_AssetGUID: 4f53b25b70df02c4587a8ee0d367a917
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  - m_AssetGUID: f80cbcf50866a064c84dfca9861e6ecc
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  - m_AssetGUID: 3eca5ed892a64c14a91ff5fa03bf7452
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  possibleObstacles: []
   selectedPathIndex: 0
   obstaclePositions:
   - 0.2

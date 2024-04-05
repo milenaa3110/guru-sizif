@@ -37,10 +37,20 @@ public class ExtraLife : Consumable
 
     public override IEnumerator Started(CharacterInputController c)
     {
+        Debug.Log("ExtraLife.Started");
         yield return base.Started(c);
+        if (this == null)
+        {
+            Debug.Log("ExtraLife object has been destroyed");
+            yield break;
+        }
+        Debug.Log($"ExtraLife.Started: {c.currentLife}");
         if (c.currentLife < k_MaxLives)
+        {
             c.currentLife += 1;
-		else
+            Debug.Log($"ExtraLife.Started: {c.currentLife}");
+        }
+        else
             c.coins += k_CoinValue;
     }
 }

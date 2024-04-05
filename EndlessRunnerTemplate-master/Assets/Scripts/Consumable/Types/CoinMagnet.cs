@@ -8,7 +8,7 @@ public class CoinMagnet : Consumable
 
     public override string GetConsumableName()
     {
-        return "Magnet";
+        return "Horn";
     }
 
     public override ConsumableType GetConsumableType()

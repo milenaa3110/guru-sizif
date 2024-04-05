@@ -34,12 +34,16 @@ public class Invincibility : Consumable
     public override IEnumerator Started(CharacterInputController c)
     {
         yield return base.Started(c);
+        Character character = c.character;
+        character.truck.gameObject.SetActive(true);
         c.characterCollider.SetInvincible(duration);
     }
 
     public override void Ended(CharacterInputController c)
     {
         base.Ended(c);
+        Character character = c.character;
+        character.truck.gameObject.SetActive(false);
         c.characterCollider.SetInvincibleExplicit(false);
     }
 }

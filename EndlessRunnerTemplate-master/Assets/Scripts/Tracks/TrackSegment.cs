@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,6 +15,8 @@ public class TrackSegment : MonoBehaviour
 
     public TrackManager manager;
 
+    public List<Vector3> obstaclePositionsInWorld;
+    
 	public Transform objectRoot;
 	public Transform collectibleTransform;
 
