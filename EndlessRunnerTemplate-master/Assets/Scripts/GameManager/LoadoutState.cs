@@ -168,7 +168,7 @@ public class LoadoutState : AState
         }
 
 		charSelect.gameObject.SetActive(PlayerData.instance.characters.Count > 1);
-		themeSelect.gameObject.SetActive(PlayerData.instance.themes.Count > 1);
+		//themeSelect.gameObject.SetActive(PlayerData.instance.themes.Count > 1);
     }
 
 	public void GoToStore()
@@ -223,9 +223,6 @@ public class LoadoutState : AState
             t = ThemeDatabase.GetThemeData(PlayerData.instance.themes[PlayerData.instance.usedTheme]);
             yield return null;
         }
-
-        themeNameDisplay.text = t.themeName;
-		themeIcon.sprite = t.themeIcon;
 
 		skyMeshFilter.sharedMesh = t.skyMesh;
         UIGroundFilter.sharedMesh = t.UIGroundMesh;
