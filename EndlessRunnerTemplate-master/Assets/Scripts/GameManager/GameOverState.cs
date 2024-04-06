@@ -21,6 +21,7 @@ public class GameOverState : AState
 
     public GameObject addButton;
 
+    public CharacterInputController controller;
     public override void Enter(AState from)
     {
         canvas.gameObject.SetActive(true);
@@ -132,7 +133,8 @@ public class GameOverState : AState
     {
 		if(miniLeaderboard.playerEntry.inputName.text == "")
 		{
-			miniLeaderboard.playerEntry.inputName.text = "Trash Cat";
+			//get character name
+			miniLeaderboard.playerEntry.inputName.text = PlayerData.instance.previousName;
 		}
 		else
 		{

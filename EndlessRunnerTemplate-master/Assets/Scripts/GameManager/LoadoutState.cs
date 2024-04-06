@@ -80,7 +80,6 @@ public class LoadoutState : AState
         missionPopup.gameObject.SetActive(false);
 
         charNameDisplay.text = "";
-        themeNameDisplay.text = "";
 
         k_UILayer = LayerMask.NameToLayer("UI");
 
@@ -95,9 +94,6 @@ public class LoadoutState : AState
             MusicPlayer.instance.SetStem(0, menuTheme);
             StartCoroutine(MusicPlayer.instance.RestartAllStems());
         }
-
-        runButton.interactable = false;
-        runButton.GetComponentInChildren<Text>().text = "Loading...";
 
         if(m_PowerupToUse != Consumable.ConsumableType.NONE)
         {

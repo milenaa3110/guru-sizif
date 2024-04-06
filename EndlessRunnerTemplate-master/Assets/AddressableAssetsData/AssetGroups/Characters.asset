@@ -22,22 +22,10 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2ae64d0eaec8d6f4f9436fce6117048d
-    m_Address: Trash Cat
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - characters
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2bfa18892388236498842bbfe7a3ff83
     m_Address: Assets/Prefabs/UI/Header.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 473ffa016efe3724cad08daa78e3d12a
-    m_Address: Rubbish Raccoon
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - characters
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 71514012df4dcd146957cb145cec8287
     m_Address: Assets/Prefabs/UI/MissionEntry.prefab
@@ -65,7 +53,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 224fbd3f1fe38ea41b8a52355d789092
-    m_Address: Abe
+    m_Address: Hipishizik
     m_ReadOnly: 0
     m_SerializedLabels:
     - characters
@@ -98,6 +86,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1ed57df6ce78380478dea67fb85baeb3
     m_Address: pilot baboo
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - characters
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74b1bb14bae905049a4c1f5589242088
+    m_Address: Merope
     m_ReadOnly: 0
     m_SerializedLabels:
     - characters

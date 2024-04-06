@@ -44,8 +44,8 @@ public class PlayerData
     public int usedTheme;                                           // Currently used theme.
     public List<HighscoreEntry> highscores = new List<HighscoreEntry>();
     public List<MissionBase> missions = new List<MissionBase>();
+	public string previousName = "Hipishizik";
 
-	public string previousName = "Trash Cat";
 
     public bool licenceAccepted;
     public bool tutorialDone;
@@ -244,7 +244,7 @@ public class PlayerData
         m_Instance.coins = 0;
         m_Instance.premium = 0;
 
-		m_Instance.characters.Add("Trash Cat");
+		m_Instance.characters.Add("Hipishizik");
 		m_Instance.themes.Add("Day");
 
         m_Instance.ftueLevel = 0;
