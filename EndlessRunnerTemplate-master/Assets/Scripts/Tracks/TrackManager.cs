@@ -134,7 +134,7 @@ public class TrackManager : MonoBehaviour
     protected const float k_SegmentRemovalDistance = -30f;
     protected const float k_Acceleration = 0.2f;
     
-    Quaternion currentSceneRotation = Quaternion.identity;
+    public Quaternion currentSceneRotation = Quaternion.identity;
     protected void Awake()
     {
         m_ScoreAccum = 0.0f;

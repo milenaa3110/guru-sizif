@@ -25,7 +25,7 @@ public class GameOverState : AState
     public override void Enter(AState from)
     {
         canvas.gameObject.SetActive(true);
-
+        trackManager.currentSceneRotation = Quaternion.identity;
 		miniLeaderboard.playerEntry.inputName.text = PlayerData.instance.previousName;
 		
 		miniLeaderboard.playerEntry.score.text = trackManager.score.ToString();

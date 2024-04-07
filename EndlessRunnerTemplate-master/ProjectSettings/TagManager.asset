@@ -7,6 +7,7 @@ TagManager:
   - Hole
   - Left track
   - Left track Colider
+  - Uphill
   layers:
   - Default
   - TransparentFX

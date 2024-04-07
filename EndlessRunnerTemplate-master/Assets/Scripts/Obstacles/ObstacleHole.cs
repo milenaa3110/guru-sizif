@@ -46,6 +46,11 @@ public class ObstacleHole : Obstacle
             {
                 obj.transform.position += obj.transform.right * lane * segment.manager.laneOffset;
 
+                // If the segment is uphill, rotate the object -30 degrees along the x-axis
+                if (segment.CompareTag("Uphill"))
+                {
+                    obj.transform.Rotate(-30, 0, 0);
+                }
                 obj.transform.SetParent(segment.objectRoot, true);
 
                 //TODO : remove that hack related to #issue7

@@ -73,6 +73,7 @@ public class LoadoutState : AState
 
     public override void Enter(AState from)
     {
+	    Camera.main.transform.rotation = Quaternion.Euler(14.947f, 0, 0);
         tutorialBlocker.SetActive(!PlayerData.instance.tutorialDone);
         tutorialPrompt.SetActive(false);
 

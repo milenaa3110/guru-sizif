@@ -28,32 +28,70 @@ public class PatrollingObstacle : Obstacle
 
     protected const float k_LaneOffsetToFullWidth = 2f;
 
-    public override IEnumerator Spawn(TrackSegment segment, float t)
-	{
-		Vector3 position;
-		Quaternion rotation;
-		segment.GetPointAt(t, out position, out rotation);
+ //    public override IEnumerator Spawn(TrackSegment segment, float t)
+	// {
+	// 	Vector3 position;
+	// 	Quaternion rotation;
+	// 	segment.GetPointAt(t, out position, out rotation);
+ //
+	//     AsyncOperationHandle op = Addressables.InstantiateAsync(gameObject.name, position, rotation);
+	//     yield return op;
+	//     if (op.Result == null || !(op.Result is GameObject))
+	//     {
+	//         Debug.LogWarning(string.Format("Unable to load obstacle {0}.", gameObject.name));
+	//         yield break;
+	//     }
+ //        GameObject obj = op.Result as GameObject;
+ //
+ //        obj.transform.SetParent(segment.objectRoot, true);
+ //        
+ //        PatrollingObstacle po = obj.GetComponent<PatrollingObstacle>();
+ //        po.m_Segement = segment;
+	// 	//TODO : remove that hack related to #issue7
+	// 	Vector3 oldPos = obj.transform.position;
+	// 	oldPos.y = -1.5f;
+	// 	obj.transform.position = oldPos;
+ //
+	// 	po.Setup();
+ //    }
+ public override IEnumerator Spawn(TrackSegment segment, float t)
+ {
+	 Vector3 position;
+	 Quaternion rotation;
+	 segment.GetPointAt(t, out position, out rotation);
 
-	    AsyncOperationHandle op = Addressables.InstantiateAsync(gameObject.name, position, rotation);
-	    yield return op;
-	    if (op.Result == null || !(op.Result is GameObject))
-	    {
-	        Debug.LogWarning(string.Format("Unable to load obstacle {0}.", gameObject.name));
-	        yield break;
-	    }
-        GameObject obj = op.Result as GameObject;
+	 AsyncOperationHandle op = Addressables.InstantiateAsync(gameObject.name, position, rotation);
+	 yield return op;
+	 if (op.Result == null || !(op.Result is GameObject))
+	 {
+		 Debug.LogWarning(string.Format("Unable to load obstacle {0}.", gameObject.name));
+		 yield break;
+	 }
+	 GameObject obj = op.Result as GameObject;
 
-        obj.transform.SetParent(segment.objectRoot, true);
+	 obj.transform.SetParent(segment.objectRoot, true);
+    
+	 PatrollingObstacle po = obj.GetComponent<PatrollingObstacle>();
+	 po.m_Segement = segment;
 
-        PatrollingObstacle po = obj.GetComponent<PatrollingObstacle>();
-        po.m_Segement = segment;
-		//TODO : remove that hack related to #issue7
-		Vector3 oldPos = obj.transform.position;
-		oldPos.y = -1.5f;
-		obj.transform.position = oldPos;
+	 // Postavljanje pozicije i rotacije objekta na poziciju i rotaciju na putu
+	 obj.transform.position = position;
+	 obj.transform.rotation = rotation;
+	 //Debug.Log(obj.tag);
+	 Debug.Log("Object tag: " + obj.tag);
+	 if (!segment.CompareTag("Uphill"))
+	 {
+		 Vector3 oldPos = obj.transform.position;
+		 oldPos.y = -1.5f;
+		 obj.transform.position = oldPos;
+	 }
+	 else
+	 {
+		 obj.transform.Rotate(-50, 0, 0);
+	 }
 
-		po.Setup();
-    }
+	 po.Setup();
+ }
 
     public override void Setup()
 	{
@@ -99,7 +137,9 @@ public class PatrollingObstacle : Obstacle
 			return;
 
 		m_CurrentPos += Time.deltaTime * m_MaxSpeed;
-
-        transform.localPosition = m_OriginalPosition - transform.right * Mathf.PingPong(m_CurrentPos, m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth);
+			// Adjust movement for uphill segments
+		transform.localPosition = m_OriginalPosition - transform.right * Mathf.PingPong(m_CurrentPos, m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth);
+		
+	
 	}
 }

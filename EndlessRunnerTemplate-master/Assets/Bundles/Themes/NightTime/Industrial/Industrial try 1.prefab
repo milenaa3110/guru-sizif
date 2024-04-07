@@ -59,14 +59,6 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  - m_AssetGUID: f80cbcf50866a064c84dfca9861e6ecc
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  - m_AssetGUID: 3eca5ed892a64c14a91ff5fa03bf7452
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
   selectedPathIndex: 0
   obstaclePositions:
   - 0.5
