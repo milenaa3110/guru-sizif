@@ -25,7 +25,7 @@ public class PatrollingObstacle : Obstacle
 
 	protected AudioSource m_Audio;
     private bool m_isMoving = false;
-
+	private bool isLeft = false;
     protected const float k_LaneOffsetToFullWidth = 2f;
 
  //    public override IEnumerator Spawn(TrackSegment segment, float t)
@@ -89,7 +89,7 @@ public class PatrollingObstacle : Obstacle
 	 {
 		 obj.transform.Rotate(-50, 0, 0);
 	 }
-
+		
 	 po.Setup();
  }
 
@@ -138,8 +138,41 @@ public class PatrollingObstacle : Obstacle
 
 		m_CurrentPos += Time.deltaTime * m_MaxSpeed;
 			// Adjust movement for uphill segments
-		transform.localPosition = m_OriginalPosition - transform.right * Mathf.PingPong(m_CurrentPos, m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth);
 		
-	
-	}
+		
+		if (m_Segement.transform.rotation.y == 0)
+		{
+            transform.localPosition = m_OriginalPosition - transform.right * Mathf.PingPong(m_CurrentPos, m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth);     
+        }
+        else if (Mathf.Abs(m_Segement.transform.eulerAngles.y - 270) < 0.1)
+        {
+
+            float lateralMovement = Mathf.PingPong(m_CurrentPos, m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth) - (m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth / 2);
+
+            // Pomeranje objekta za pola širine po x osi od m_OriginalPosition, plus lateralno kretanje
+            Vector3 newPosition = m_OriginalPosition - transform.forward * lateralMovement;
+            //newPosition.x -= k_LaneOffsetToFullWidth; // Pomeranje po x osi
+
+            // Postavi novu lokalnu poziciju
+            transform.localPosition = newPosition;
+        }
+        else if (Mathf.Abs(m_Segement.transform.eulerAngles.y - 180) < 0.1)
+        {
+            transform.localPosition = m_OriginalPosition - transform.right * Mathf.PingPong(m_CurrentPos, m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth);
+        }
+
+        else if (Mathf.Abs(m_Segement.transform.eulerAngles.y - 90) < 0.1)
+        {
+            float lateralMovement = Mathf.PingPong(m_CurrentPos, m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth) - (m_Segement.manager.laneOffset * k_LaneOffsetToFullWidth / 2);
+
+            // Pomeranje objekta za pola širine po x osi od m_OriginalPosition, plus lateralno kretanje
+            Vector3 newPosition = m_OriginalPosition - transform.forward * lateralMovement;
+            //newPosition.x -= k_LaneOffsetToFullWidth; // Pomeranje po x osi
+
+            // Postavi novu lokalnu poziciju
+            transform.localPosition = newPosition;
+        }
+
+
+    }
 }

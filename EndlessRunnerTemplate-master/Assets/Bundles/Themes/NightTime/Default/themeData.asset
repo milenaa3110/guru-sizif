@@ -19,7 +19,7 @@ MonoBehaviour:
   zones:
   - length: 500
     prefabList:
-    - m_AssetGUID: 9e378629cb85d6a4fa099441fff3aaa3
+    - m_AssetGUID: d4dc1747709203846b8cf0aca683f824
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

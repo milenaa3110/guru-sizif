@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.TextCore.Text;
 
 #if UNITY_ADS
 using UnityEngine.Advertisements;
@@ -22,8 +23,9 @@ public class GameState : AState
 
     public Canvas canvas;
     public TrackManager trackManager;
+    public CharacterInputController controller;
 
-	public AudioClip gameTheme;
+    public AudioClip gameTheme;
 
     [Header("UI")]
     public Text coinText;
@@ -84,9 +86,15 @@ public class GameState : AState
     protected int m_CurrentSegmentObstacleIndex = 0;
     protected TrackSegment m_NextValidSegment = null;
     protected int k_ObstacleToClear = 3;
-
+    
     public override void Enter(AState from)
     {
+        Debug.Log(trackManager.currentSceneRotation);
+        trackManager.currentSceneRotation = Quaternion.identity;
+        Debug.Log(Camera.main.transform.rotation);
+        Camera.main.transform.rotation = Quaternion.Euler(14.947f, 0, 0);
+        Debug.Log(trackManager.currentSceneRotation);
+        Debug.Log(Camera.main.transform.rotation);
         m_CountdownRectTransform = countdownText.GetComponent<RectTransform>();
 
         m_LifeHearts = new Image[k_MaxLives];

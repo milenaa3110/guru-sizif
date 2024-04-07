@@ -50,7 +50,7 @@ public class TrackManager : MonoBehaviour
     public bool invincible = false;
 
     public bool allowSegmentTransition = true;
-
+    public bool isTurn = false;
 
     [Header("Objects")]
     public ConsumableDatabase consumableDatabase;
@@ -216,8 +216,11 @@ public class TrackManager : MonoBehaviour
 
             characterController.Init();
             characterController.CheatInvincible(invincible);
-
+            characterController.transform.rotation = Quaternion.identity;
+            characterController.character.transform.rotation = Quaternion.identity;
             //Instantiate(CharacterDatabase.GetCharacter(PlayerData.instance.characters[PlayerData.instance.usedCharacter]), Vector3.zero, Quaternion.identity);
+            characterController.characterCollider.transform.rotation = Quaternion .identity;
+
             player.transform.SetParent(characterController.characterCollider.transform, false);
             Camera.main.transform.SetParent(characterController.transform, true);
 
