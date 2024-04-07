@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6587267972748923241}
   - component: {fileID: -3384146652883782072}
   - component: {fileID: 3783557208285400585}
+  - component: {fileID: -2078366821284587594}
   m_Layer: 9
   m_Name: Pillar obstacle
   m_TagString: Untagged
@@ -194,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bf43c79f6bad84784689f6386c2e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impactedSound: {fileID: 0}
+  impactedSound: {fileID: 8300000, guid: 3ccd33bf8fd88544483cc1d1b787df3d, type: 3}
 --- !u!65 &3783557208285400585
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -216,3 +217,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 67.5, y: 300, z: 65.8076}
   m_Center: {x: 0, y: 150, z: 0}
+--- !u!114 &-2078366821284587594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e38bebbdc31db468a604b05bd1d75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerGroup: SFX

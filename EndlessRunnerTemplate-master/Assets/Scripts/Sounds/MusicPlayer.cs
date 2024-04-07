@@ -20,17 +20,27 @@ public class MusicPlayer : MonoBehaviour
 
     public void PlayNewClipAndResume(AudioClip newClip)
     {
+        PauseAllStems();
 	    // Assume the first stem is the one you want to play the new clip on
-	    stems[0].source.clip = newClip;
-	    stems[0].source.Play();
-	    StartCoroutine(ResumeAfterClip(stems[0].source));
+	    stems[1].source.clip = newClip;
+        
+        stems[1].source.loop = false;
+        stems[1].source.volume = maxVolume;
+        stems[1].source.Play();
+        StartCoroutine(ResumeAfterClip(newClip));
     }
-    
-    IEnumerator ResumeAfterClip(AudioSource audioSource)
+
+    IEnumerator ResumeAfterClip(AudioClip clip)
     {
-	    yield return new WaitForSeconds(audioSource.clip.length);
-	    ResumeAllStems();
+        Debug.Log(clip.length);
+        // Čekajte dok se klip reprodukuje
+        while (stems[1].source.isPlaying)
+        {
+            yield return null; // Čekajte do sljedećeg frame-a prije nego što ponovno provjerite
+        }
+        ResumeAllStems();
     }
+
     public void PlayNewClip(AudioClip newClip)
     {
 	    // Assume the first stem is the one you want to play the new clip on
@@ -139,8 +149,8 @@ public class MusicPlayer : MonoBehaviour
 
         for(int i = 0; i < stems.Length; ++i)
         {
-            float target = currentSpeedRatio >= stems[i].startingSpeedRatio ? maxVolume : 0.0f;
-            stems[i].source.volume = Mathf.MoveTowards(stems[i].source.volume, target, fadeSpeed * Time.deltaTime);
+            //float target = currentSpeedRatio >= stems[i].startingSpeedRatio ? maxVolume : 0.0f;
+            //stems[i].source.volume = Mathf.MoveTowards(stems[i].source.volume, target, fadeSpeed * Time.deltaTime);
         }
     }
 }
