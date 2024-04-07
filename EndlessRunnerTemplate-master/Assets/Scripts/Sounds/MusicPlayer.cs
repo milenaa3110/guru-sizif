@@ -18,6 +18,47 @@ public class MusicPlayer : MonoBehaviour
     public Stem[] stems;
     public float maxVolume = 0.1f;
 
+    public void PlayNewClipAndResume(AudioClip newClip)
+    {
+	    // Assume the first stem is the one you want to play the new clip on
+	    stems[0].source.clip = newClip;
+	    stems[0].source.Play();
+	    StartCoroutine(ResumeAfterClip(stems[0].source));
+    }
+    
+    IEnumerator ResumeAfterClip(AudioSource audioSource)
+    {
+	    yield return new WaitForSeconds(audioSource.clip.length);
+	    ResumeAllStems();
+    }
+    public void PlayNewClip(AudioClip newClip)
+    {
+	    // Assume the first stem is the one you want to play the new clip on
+	    stems[0].source.clip = newClip;
+	    stems[0].source.Play();
+    }
+
+    public void PauseAllStems()
+    {
+	    for (int i = 0; i < stems.Length; ++i)
+	    {
+		    if (stems[i].source.isPlaying)
+		    {
+			    stems[i].source.Pause();
+		    }
+	    }
+    }
+    public void ResumeAllStems()
+    {
+	    for (int i = 0; i < stems.Length; ++i)
+	    {
+		    if (!stems[i].source.isPlaying)
+		    {
+			    stems[i].source.UnPause();
+		    }
+	    }
+    }
+    
     void Awake()
     {
         if (s_Instance != null)

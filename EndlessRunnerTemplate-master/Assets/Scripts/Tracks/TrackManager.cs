@@ -8,6 +8,7 @@ using UnityEngine.ResourceManagement;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using GameObject = UnityEngine.GameObject;
 using System;
+using Random = System.Random;
 
 #if UNITY_ANALYTICS
 using UnityEngine.Analytics;
@@ -652,6 +653,9 @@ public class TrackManager : MonoBehaviour
             segment.obstaclePositionsInWorld = new List<Vector3>(); // Add this line to initialize the list
             for (int i = 0; i < segment.obstaclePositions.Length; ++i)
             {
+                float randomFloat = UnityEngine.Random.Range(0.0f, 1.0f);
+                if (randomFloat < 0.5f)
+                    continue;
                 AssetReference assetRef = segment.possibleObstacles[UnityEngine.Random.Range(0, segment.possibleObstacles.Length)];
                 StartCoroutine(SpawnFromAssetReference(assetRef, segment, i));
                 Vector3 obstaclePos;

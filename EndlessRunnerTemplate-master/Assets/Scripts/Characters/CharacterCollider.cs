@@ -209,8 +209,6 @@ public class CharacterCollider : MonoBehaviour
         }
     }
 
-
-
     protected void OnTriggerEnter(Collider c)
     {
         
@@ -321,8 +319,9 @@ public class CharacterCollider : MonoBehaviour
             FallIntoHole();
             if (controller.currentLife > 0)
             {
-                m_Audio.PlayOneShot(controller.character.hitSound);
-                SetInvincible();
+	            MusicPlayer.instance.PauseAllStems();
+	            MusicPlayer.instance.PlayNewClipAndResume(controller.character.hitSound);
+	            SetInvincible();
             }
             // The collision killed the player, record all data to analytics.
             else
