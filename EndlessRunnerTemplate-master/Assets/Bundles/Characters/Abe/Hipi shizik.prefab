@@ -2098,7 +2098,7 @@ MonoBehaviour:
   - {fileID: 6161397584786363732}
   - {fileID: 9215490237782740606}
   animator: {fileID: 7304379323453401653}
-  icon: {fileID: 21300000, guid: bb67dd508c3b85b46a088b3894514f6e, type: 3}
+  icon: {fileID: 21300000, guid: 1051012e7cfff86488622ef5c42820f0, type: 3}
   jumpSound: {fileID: 0}
   hitSound: {fileID: 0}
   deathSound: {fileID: 0}

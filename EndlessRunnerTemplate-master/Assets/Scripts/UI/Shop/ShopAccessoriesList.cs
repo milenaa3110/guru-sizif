@@ -132,7 +132,7 @@ public class ShopAccessoriesList : ShopList
 		}
 		else
 		{
-			itm.pricetext.color = Color.black;
+			itm.pricetext.color = Color.white;
 		}
 
 		if (accessory.premiumCost > PlayerData.instance.premium)
@@ -142,7 +142,7 @@ public class ShopAccessoriesList : ShopList
 		}
 		else
 		{
-			itm.premiumText.color = Color.black;
+			itm.premiumText.color = Color.white;
 		}
 
 		if (PlayerData.instance.characterAccessories.Contains(compoundName))

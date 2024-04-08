@@ -75,7 +75,7 @@ public class ShopItemList : ShopList
 		}
 		else
 		{
-			itemList.pricetext.color = Color.black;
+			itemList.pricetext.color = Color.white;
 		}
 
 		if (c.GetPremiumCost() > PlayerData.instance.premium)
@@ -85,7 +85,7 @@ public class ShopItemList : ShopList
 		}
 		else
 		{
-			itemList.premiumText.color = Color.black;
+			itemList.premiumText.color = Color.white;
 		}
 	}
 

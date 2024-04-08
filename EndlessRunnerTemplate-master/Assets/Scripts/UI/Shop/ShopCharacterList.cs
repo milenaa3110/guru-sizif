@@ -67,7 +67,7 @@ public class ShopCharacterList : ShopList
 		}
 		else
 		{
-			itm.pricetext.color = Color.black;
+			itm.pricetext.color = Color.white;
 		}
 
 		if (c.premiumCost > PlayerData.instance.premium)
@@ -77,7 +77,7 @@ public class ShopCharacterList : ShopList
 		}
 		else
 		{
-			itm.premiumText.color = Color.black;
+			itm.premiumText.color = Color.white;
 		}
 
 		if (PlayerData.instance.characters.Contains(c.characterName))

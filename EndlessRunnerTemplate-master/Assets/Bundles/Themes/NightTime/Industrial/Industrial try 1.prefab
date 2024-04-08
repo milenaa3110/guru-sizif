@@ -54,11 +54,7 @@ MonoBehaviour:
   obstaclePositionsInWorld: []
   objectRoot: {fileID: 0}
   collectibleTransform: {fileID: 0}
-  possibleObstacles:
-  - m_AssetGUID: f80cbcf50866a064c84dfca9861e6ecc
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  possibleObstacles: []
   selectedPathIndex: 0
   obstaclePositions:
   - 0.5

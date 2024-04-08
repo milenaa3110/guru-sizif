@@ -122,7 +122,7 @@ public class PickupMission : MissionBase
 
     public override string GetMissionDesc()
     {
-        return "Pickup " + max + " fishbones";
+        return "Pickup " + max + " coins";
     }
 
     public override MissionType GetMissionType()
