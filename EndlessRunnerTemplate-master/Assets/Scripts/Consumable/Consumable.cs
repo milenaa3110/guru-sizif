@@ -16,7 +16,9 @@ public abstract class Consumable : MonoBehaviour
         SCORE_MULTIPLAYER,
         INVINCIBILITY,
         EXTRALIFE,
-		MAX_COUNT
+		MAX_COUNT,
+        SPEED_UP,
+        SLOW_DOWN,
     }
 
     public Sprite icon;
