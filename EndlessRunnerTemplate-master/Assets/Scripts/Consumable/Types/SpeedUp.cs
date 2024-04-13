@@ -31,7 +31,7 @@ public class SpeedUp : Consumable
 
         if (c.trackManager.speed < c.trackManager.maxSpeed)
         {
-            c.trackManager.speed++;
+            c.trackManager.speed = c.trackManager.maxSpeed;
         }
     }
 

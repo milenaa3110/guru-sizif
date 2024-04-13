@@ -47,9 +47,6 @@ public class CharacterCollider : MonoBehaviour
     [HideInInspector]
 	public List<GameObject> magnetCoins = new List<GameObject>();
 
-    public bool tutorialHitObstacle {  get { return m_TutorialHitObstacle;} set { m_TutorialHitObstacle = value;} }
-
-    protected bool m_TutorialHitObstacle;
 
     protected bool m_Invincible;
     protected DeathEvent m_DeathData;
@@ -67,38 +64,6 @@ public class CharacterCollider : MonoBehaviour
     protected const int k_PowerupLayerIndex = 10;
     protected const float k_DefaultInvinsibleTime = 2f;
 
-
-    void OnEnable()
-    {
-        TrackSegment.OnPathDecision += HandlePathDecision;
-    }
-
-    void OnDisable()
-    {
-        TrackSegment.OnPathDecision -= HandlePathDecision;
-    }
-
-    private void HandlePathDecision(bool success)
-    {
-        if (!success)
-        {
-            // Trigger fall and handle character death
-            controller.currentLife = 0;
-            controller.character.animator.SetTrigger(s_FallHash);
-            FallIntoHole();
-
-            m_DeathData.character = controller.character.characterName;
-            m_DeathData.themeUsed = controller.trackManager.currentTheme.themeName;
-            m_DeathData.coins = controller.coins;
-            m_DeathData.premium = controller.premium;
-            m_DeathData.score = controller.trackManager.score;
-            m_DeathData.worldDistance = controller.trackManager.worldDistance;
-        }
-        else
-        {
-            // Handle successful path decision, if necessary
-        }
-    }
 
     protected void Start()
     {
@@ -254,14 +219,9 @@ public class CharacterCollider : MonoBehaviour
 				Addressables.ReleaseInstance(c.gameObject);
 			}
 
-			if (TrackManager.instance.isTutorial)
-			{
-				m_TutorialHitObstacle = true;
-			}
-			else
-			{
-				controller.currentLife -= 1;
-			}
+			
+			controller.currentLife -= 1;
+			
 
 			controller.character.animator.SetTrigger(s_HitHash);
 
@@ -308,14 +268,8 @@ public class CharacterCollider : MonoBehaviour
                 Addressables.ReleaseInstance(c.gameObject);
             }
 
-            if (TrackManager.instance.isTutorial)
-            {
-                m_TutorialHitObstacle = true;
-            }
-            else
-            {
-				controller.currentLife = 0;
-            }
+            
+			controller.currentLife = 0;
             
             controller.character.animator.SetTrigger(s_FallHash);
             FallIntoHole();

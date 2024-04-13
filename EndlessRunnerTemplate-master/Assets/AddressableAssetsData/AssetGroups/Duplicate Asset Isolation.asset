@@ -22,11 +22,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0d2b18ab5b0d98e4e96bce5fbaea35f7
-    m_Address: Assets/Animation/ObstacleBin.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d9e50755a43a614a8233233466a4e80
     m_Address: Assets/Sounds/SFX/TrafficCone.ogg
     m_ReadOnly: 0
@@ -59,11 +54,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1f6f8aef6ad2c6441a3fe10ca76836c2
     m_Address: Assets/Models/Daytime/BinBagOpen.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1fa0d134c763a194ea3daba8ff85489a
-    m_Address: Assets/Animation/Rat_Run.fbx
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -117,11 +107,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3bbb4725b7e107143a0d7eeaa52be855
-    m_Address: Assets/Animation/ObstacleRoadWorksBarrier_Death.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3dc78b81a4d12bd42bd2c32e62d95511
     m_Address: Assets/Materials/Bin.mat
     m_ReadOnly: 0
@@ -154,11 +139,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 540c9cb7b5d464f44b60de14713427a3
     m_Address: Assets/Materials/Plaster.mat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 58219e8eced12ce4c9723796d507d515
-    m_Address: Assets/Animation/ObstacleWorkCone_Death.fbx
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -267,11 +247,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 89db83d228927234ab3737e12e64660e
-    m_Address: Assets/Animation/ObstacleWheelyBin.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 89e6fbf81f961324680e4bf3f84b5990
     m_Address: Assets/Models/Daytime/TelegraphPole01.fbx
     m_ReadOnly: 0
@@ -302,11 +277,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 97d3d75c59ef7f544808ac9ea51905f2
-    m_Address: Assets/Animation/Rat_Death.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98bdd2e108de67d439c390dc7cb78caa
     m_Address: Assets/Materials/CorrugatedMetal.mat
     m_ReadOnly: 0
@@ -314,11 +284,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9a26112fdfc12324d8fee247fbeb44e7
     m_Address: Assets/Models/Daytime/Road01.fbx
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9b635fbb467c2e84f9b8b0d2cc7a19fd
-    m_Address: Assets/Animation/ObstacleRoadWorksBarrierLow_Death.fbx
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -414,11 +379,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bb67dd508c3b85b46a088b3894514f6e
     m_Address: Assets/Textures/Graffiti/Graffiti09.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bbccc718107e16e4d9e070aa75df5218
-    m_Address: Assets/Animation/ObstacleRoadWorksBarrierHigh_Death.fbx
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

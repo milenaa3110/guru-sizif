@@ -42,9 +42,6 @@ public class CharacterInputController : MonoBehaviour
 	public AudioClip powerUpUseSound;
 	public AudioSource powerupSource;
 
-    [HideInInspector] public int currentTutorialLevel;
-    [HideInInspector] public bool tutorialWaitingForValidation;
-
     protected int m_Coins;
     protected int m_Premium;
     protected int m_CurrentLife;
@@ -177,12 +174,7 @@ public class CharacterInputController : MonoBehaviour
         }
     }
 
-    protected bool TutorialMoveCheck(int tutorialLevel)
-    {
-        tutorialWaitingForValidation = currentTutorialLevel != tutorialLevel;
-
-        return (!TrackManager.instance.isTutorial || currentTutorialLevel >= tutorialLevel);
-    }
+ 
 
 	protected void Update ()
     {
@@ -239,16 +231,16 @@ public class CharacterInputController : MonoBehaviour
 				{
 					if(Mathf.Abs(diff.y) > Mathf.Abs(diff.x))
 					{
-						if(TutorialMoveCheck(2) && diff.y < 0)
+						if(diff.y < 0)
 						{
 							Slide();
 						}
-						else if(TutorialMoveCheck(1))
+						else
 						{
 							Jump();
 						}
 					}
-					else if(TutorialMoveCheck(0))
+					else
 					{
 						if(diff.x < 0)
 						{
@@ -280,27 +272,6 @@ public class CharacterInputController : MonoBehaviour
 
         Vector3 verticalTargetPosition = m_TargetPosition;
 
-        //if (SystemInfo.supportsGyroscope && m_IsRunning)
-        //{
-        //    // Read the gyroscope's rotation rate
-        //    float rotationRateY = Input.gyro.rotationRateUnbiased.y;
-
-        //    // Determine the sensitivity of tilting to change lanes
-        //    float sensitivity = 0.8f; // Adjust this value based on testing
-
-        //    // Change lane based on tilt direction and sensitivity
-        //    if (rotationRateY > sensitivity)
-        //    {
-        //        // Tilted right
-        //        ChangeLane(1);
-        //    }
-        //    else if (rotationRateY < -sensitivity)
-        //    {
-        //        // Tilted left
-        //        ChangeLane(-1);
-        //    }
-        //}
-        
         if (m_Sliding)
 		{
             // Slide time isn't constant but the slide length is (even if slightly modified by speed, to slide slightly further when faster).

@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2197720924
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: themedata
+      Dependencies: {}

@@ -1,0 +1,56 @@
+ManifestFileVersion: 0
+CRC: 3396307659
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a7501cb4202f835e177895fa2e9da8d9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 36950c553929626882080227ac4f68a1
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: a7501cb4202f835e177895fa2e9da8d9
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6b1d85a2c7e28e1459060064df24f9b7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5397c64509ab92a4b9e8309aebcb66e1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: ThemeZone
+- AssemblyName: Unity.Addressables
+  ClassName: UnityEngine.AddressableAssets.AssetReference
+Assets:
+- Assets/Bundles/Themes/NightTime/Default/themeData.asset
+Dependencies: []

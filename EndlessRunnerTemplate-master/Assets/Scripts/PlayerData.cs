@@ -48,7 +48,6 @@ public class PlayerData
 
 
     public bool licenceAccepted;
-    public bool tutorialDone;
 
 	public float masterVolume = float.MinValue, musicVolume = float.MinValue, masterSFXVolume = float.MinValue;
 
@@ -152,19 +151,7 @@ public class PlayerData
     public void ClaimMission(MissionBase mission)
     {        
         premium += mission.reward;
-        
-#if UNITY_ANALYTICS // Using Analytics Standard Events v0.3.0
-        AnalyticsEvent.ItemAcquired(
-            AcquisitionType.Premium, // Currency type
-            "mission",               // Context
-            mission.reward,          // Amount
-            "anchovies",             // Item ID
-            premium,                 // Item balance
-            "consumable",            // Item type
-            rank.ToString()          // Level
-        );
-#endif
-        
+       
         missions.Remove(mission);
 
         CheckMissionsCount();
@@ -379,11 +366,6 @@ public class PlayerData
             rank = r.ReadInt32();
         }
 
-        if (ver >= 12)
-        {
-            tutorialDone = r.ReadBoolean();
-        }
-
         r.Close();
     }
 
@@ -454,8 +436,6 @@ public class PlayerData
         w.Write(ftueLevel);
         w.Write(rank);
 
-        w.Write(tutorialDone);
-
         w.Close();
     }
 
@@ -472,7 +452,7 @@ public class PlayerDataEditor : Editor
         File.Delete(Application.persistentDataPath + "/save.bin");
     } 
 
-    [MenuItem("Trash Dash Debug/Give 1000000 fishbones and 1000 premium")]
+    [MenuItem("Trash Dash Debug/Give 1000000 coins and 1000 premium")]
     static public void GiveCoins()
     {
         PlayerData.instance.coins += 1000000;

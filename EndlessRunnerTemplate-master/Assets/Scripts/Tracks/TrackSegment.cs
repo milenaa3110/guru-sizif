@@ -34,19 +34,25 @@ public class TrackSegment : MonoBehaviour
 
     protected float m_WorldLength;
 
+    private float leftTiltTime = 0f;
+    private float tiltValidationInterval = 0.2f;
+
     void Update()
     {
-        
+
         // Check if the current segment allows for a path change
-        if (gameObject.name.Contains("Turn left"))
+
+        if (gameObject.name.Contains("Road left"))
         {
-            bool success = Input.gyro.rotationRateUnbiased.y < -0.8f;
-            
-            // Detect left tilt
-            if (success) // Adjust sensitivity as needed
-            {
-                // Assuming you have a method to change to the left path
+            // Assuming the device is being held upright in a landscape orientation
+            // You may need to adjust the axis based on how you expect the device to be held
+            float accelerationX = Input.acceleration.x;
+
+            // Detect left tilt; negative x acceleration might indicate tilting to the left
+            if (accelerationX < -0.5f)
+            { // Threshold value, adjust based on your testing
                 selectedPathIndex = 0;
+                Debug.Log("Detected left tilt, path index set to 0.");
             }
         }
     }
@@ -75,6 +81,21 @@ public class TrackSegment : MonoBehaviour
 	// Interpolation parameter t is clamped between 0 and 1.
 	public void GetPointAt(float t, out Vector3 pos, out Quaternion rot)
     {
+        if (pathParents == null || pathParents.Length == 0)
+        {
+            Debug.LogWarning("pathParents is either not initialized or empty.");
+            pos = Vector3.zero;
+            rot = Quaternion.identity;
+            return;
+        }
+
+        if (selectedPathIndex < 0 || selectedPathIndex >= pathParents.Length)
+        {
+            Debug.LogError($"selectedPathIndex {selectedPathIndex} is out of bounds for pathParents array.");
+            pos = Vector3.zero;
+            rot = Quaternion.identity;
+            return;
+        }
         float clampedT = Mathf.Clamp01(t);
         float scaledT = (pathParents[selectedPathIndex].childCount - 1) * clampedT;
         int index = Mathf.FloorToInt(scaledT);
@@ -96,6 +117,18 @@ public class TrackSegment : MonoBehaviour
 
     protected void UpdateWorldLength()
     {
+        if (pathParents == null || pathParents.Length == 0)
+        {
+            Debug.LogWarning("pathParents is either not initialized or empty.");
+            return;
+        }
+
+        // Check if selectedPathIndex is within the bounds of pathParents array
+        if (selectedPathIndex < 0 || selectedPathIndex >= pathParents.Length)
+        {
+            Debug.LogWarning($"selectedPathIndex {selectedPathIndex} is out of bounds for pathParents array.");
+            return;
+        }
         m_WorldLength = 0;
 
         for (int i = 1; i < pathParents[selectedPathIndex].childCount; ++i)

@@ -30,7 +30,7 @@ public class SlowDown : Consumable
 
         if (c.trackManager.speed > c.trackManager.minSpeed)
         {
-            c.trackManager.speed--;
+            c.trackManager.speed= c.trackManager.minSpeed;
         }
     }
 

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SchemaObjects: []
   m_Description: Pack assets into asset bundles.
-  m_Settings: {fileID: 0}
+  m_Settings: {fileID: 11400000, guid: 735e874f947d0e143a6b4e83f8a7283a, type: 2}

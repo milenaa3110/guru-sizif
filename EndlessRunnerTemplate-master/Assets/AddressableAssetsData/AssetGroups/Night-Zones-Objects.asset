@@ -17,38 +17,20 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 510b432ecfcacdf41b67584e44c2c5b3
   m_SerializeEntries:
-  - m_GUID: 24e342794dd5ea94fa4836beedc3a776
-    m_Address: Assets/Bundles/Themes/NightTime/Urban/UrbanRoadTSection.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: baf31dc160e3099428326b5a83db46cd
-    m_Address: Assets/Bundles/Themes/NightTime/Industrial/IndustrialWarehouse01.prefab
+  - m_GUID: 6a600bd780a71a04c80e23568bf7c2b0
+    m_Address: Assets/Bundles/Themes/NightTime/Industrial/Turn left.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - themeData
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d4dc1747709203846b8cf0aca683f824
-    m_Address: Assets/Bundles/Themes/NightTime/Industrial/Industrial try 1.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6b55f4706bf1aa048a56792177cb63dc
-    m_Address: Assets/Bundles/Themes/NightTime/Industrial/IndustrialWarehouse03.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7f9eed4d340d06141a3c57dc69d8ed2c
-    m_Address: Assets/Bundles/Themes/NightTime/Industrial/IndustrialWarehouse02.prefab
+    m_Address: Assets/Bundles/Themes/NightTime/Roads/Road.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - themeData
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9e378629cb85d6a4fa099441fff3aaa3
-    m_Address: Assets/Bundles/Themes/NightTime/Industrial/Industrial try 2.prefab
+    m_Address: Road hill
     m_ReadOnly: 0
     m_SerializedLabels:
     - themeData
@@ -56,4 +38,6 @@ MonoBehaviour:
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 735e874f947d0e143a6b4e83f8a7283a, type: 2}
   m_SchemaSet:
-    m_Schemas: []
+    m_Schemas:
+    - {fileID: 11400000, guid: 8801011bdf4288242a40344ca9fdd58a, type: 2}
+    - {fileID: 11400000, guid: 69399814a1b48f0438fa35a24189e7b6, type: 2}

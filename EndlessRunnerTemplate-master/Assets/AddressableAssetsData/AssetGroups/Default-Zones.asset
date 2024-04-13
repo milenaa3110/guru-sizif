@@ -16,43 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 0188ddff47d9b214ba640c0e529e4332
-  m_SerializeEntries:
-  - m_GUID: 1094dfec7b4011442b3be72a5e20bf45
-    m_Address: Assets/Bundles/Themes/Default/Urban
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 18779398815228c4ab638e64c5482b51
-    m_Address: Assets/Bundles/Themes/Default/Suburbs
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aa6f0e96a37135d48a40d6821865feda
-    m_Address: Assets/Bundles/Themes/Default/Industrial
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 44c7efd72e43e0d46b6a52c65be2e4e6
-    m_Address: Assets/Bundles/Themes/Default/Industrial/IndustrialWarehouse03.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 750a6519324feb941a25efb96b424ef5
-    m_Address: Assets/Bundles/Themes/Default/Industrial/IndustrialWarehouse01.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 33203f20b999d1447a431c1e330d0254
-    m_Address: Assets/Bundles/Themes/Default/Industrial/IndustrialWarehouse02.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 735e874f947d0e143a6b4e83f8a7283a, type: 2}
   m_SchemaSet:

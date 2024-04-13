@@ -60,9 +60,6 @@ public class TrackManager : MonoBehaviour
     public Transform parallaxRoot;
     public float parallaxRatio = 0.5f;
 
-    [Header("Tutorial")]
-    public ThemeData tutorialThemeData;
-
     public System.Action<TrackSegment> newSegmentCreated;
     public System.Action<TrackSegment> currentSegementChanged;
 
@@ -87,8 +84,6 @@ public class TrackManager : MonoBehaviour
 
     public bool isMoving { get { return m_IsMoving; } }
     public bool isRerun { get { return m_Rerun; } set { m_Rerun = value; } }
-
-    public bool isTutorial { get { return m_IsTutorial; } set { m_IsTutorial = value; } }
     public bool isLoaded { get; set; }
     //used by the obstacle spawning code in the tutorial, as it need to spawn the 1st obstacle in the middle lane
     public bool firstObstacle { get; set; }
@@ -122,8 +117,6 @@ public class TrackManager : MonoBehaviour
     protected float m_ScoreAccum;
     protected bool m_Rerun;     // This lets us know if we are entering a game over (ads) state or starting a new game (see GameState)
 
-    protected bool m_IsTutorial; //Tutorial is a special run that don't chance section until the tutorial step is "validated" by the TutorialState.
-
     Vector3 m_CameraOriginalPos = Vector3.zero;
 
     const float k_FloatingOriginThreshold = 10000f;
@@ -142,6 +135,7 @@ public class TrackManager : MonoBehaviour
     {
         m_ScoreAccum = 0.0f;
         s_Instance = this;
+        StartCoroutine(DestroyPastSegmentsRoutine());
     }
 
     public void StartMove(bool isRestart = true)
@@ -227,10 +221,7 @@ public class TrackManager : MonoBehaviour
             player.transform.SetParent(characterController.characterCollider.transform, false);
             Camera.main.transform.SetParent(characterController.transform, true);
 
-            if (m_IsTutorial)
-                m_CurrentThemeData = tutorialThemeData;
-            else
-                m_CurrentThemeData = ThemeDatabase.GetThemeData(PlayerData.instance.themes[PlayerData.instance.usedTheme]);
+            m_CurrentThemeData = ThemeDatabase.GetThemeData(PlayerData.instance.themes[PlayerData.instance.usedTheme]);
 
             m_CurrentZone = 0;
             m_CurrentZoneDistance = 0;
@@ -247,7 +238,7 @@ public class TrackManager : MonoBehaviour
             m_Score = 0;
             m_ScoreAccum = 0;
 
-            m_SafeSegementLeft = m_IsTutorial ? 0 : k_StartingSafeSegments;
+            m_SafeSegementLeft = k_StartingSafeSegments;
 
             Coin.coinPool = new Pooler(currentTheme.collectiblePrefab, k_StartingCoinPoolSize);
 
@@ -343,7 +334,7 @@ public class TrackManager : MonoBehaviour
 
     void Update()
     {
-        while (_spawnedSegments < (m_IsTutorial ? 4 : k_DesiredSegmentCount))
+        while (_spawnedSegments < k_DesiredSegmentCount)
         {
             StartCoroutine(SpawnNewSegment());
             _spawnedSegments++;
@@ -480,13 +471,9 @@ public class TrackManager : MonoBehaviour
 
         PowerupSpawnUpdate();
 
-        if (!m_IsTutorial)
-        {
-            if (m_Speed < maxSpeed)
-                m_Speed += k_Acceleration * Time.deltaTime;
-            else
-                m_Speed = maxSpeed;
-        }
+        if (m_Speed < maxSpeed)
+            m_Speed += k_Acceleration * Time.deltaTime;
+         
 
         m_Multiplier = 1 + Mathf.FloorToInt((m_Speed - minSpeed) / (maxSpeed - minSpeed) * speedStep);
 
@@ -498,22 +485,15 @@ public class TrackManager : MonoBehaviour
             }
         }
 
-        if (!m_IsTutorial)
+        int currentTarget = (PlayerData.instance.rank + 1) * 300;
+        if (m_TotalWorldDistance > currentTarget)
         {
-            //check for next rank achieved
-            int currentTarget = (PlayerData.instance.rank + 1) * 300;
-            if (m_TotalWorldDistance > currentTarget)
-            {
-                PlayerData.instance.rank += 1;
-                PlayerData.instance.Save();
-#if UNITY_ANALYTICS
-//"level" in our game are milestone the player have to reach : one every 300m
-            AnalyticsEvent.LevelUp(PlayerData.instance.rank);
-#endif
-            }
-
-            PlayerData.instance.UpdateMissions(this);
+            PlayerData.instance.rank += 1;
+            PlayerData.instance.Save();
         }
+
+        PlayerData.instance.UpdateMissions(this);
+        
 
         MusicPlayer.instance.UpdateVolumes(speedRatio);
     }
@@ -540,11 +520,10 @@ public class TrackManager : MonoBehaviour
 
     public IEnumerator SpawnNewSegment()
     {
-        if (!m_IsTutorial)
-        {
-            if (m_CurrentThemeData.zones[m_CurrentZone].length < m_CurrentZoneDistance)
-                ChangeZone();
-        }
+        
+        if (m_CurrentThemeData.zones[m_CurrentZone].length < m_CurrentZoneDistance)
+            ChangeZone();
+        
 
         int segmentUse = UnityEngine.Random.Range(0, m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length);
         if (segmentUse == m_PreviousSegment) segmentUse = (segmentUse + 1) % m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length;
@@ -654,7 +633,11 @@ public class TrackManager : MonoBehaviour
 
     public void SpawnObstacle(TrackSegment segment)
     {
-        if (segment.possibleObstacles.Length != 0)
+        if (m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Left track")
+        {
+            return;
+        }
+            if (segment.possibleObstacles.Length != 0)
         {
             segment.obstaclePositionsInWorld = new List<Vector3>(); // Add this line to initialize the list
             for (int i = 0; i < segment.obstaclePositions.Length; ++i)
@@ -687,129 +670,146 @@ public class TrackManager : MonoBehaviour
         }
     }
 
-
-
     public IEnumerator SpawnCoinAndPowerup(TrackSegment segment)
     {
-        if (!m_IsTutorial)
+        const float increment = 1.5f;
+        float currentWorldPos = 0.0f;
+        int currentLane = UnityEngine.Random.Range(0, 3);
+
+        float powerupChance = Mathf.Clamp01(Mathf.Floor(m_TimeSincePowerup) * 0.5f * 0.001f);
+        float premiumChance = Mathf.Clamp01(Mathf.Floor(m_TimeSinceLastPremium) * 0.5f * 0.0001f);
+
+        while (currentWorldPos < segment.worldLength)
         {
-            const float increment = 1.5f;
-            float currentWorldPos = 0.0f;
-            int currentLane = UnityEngine.Random.Range(0, 3);
+            Vector3 pos;
+            Quaternion rot;
+            segment.GetPointAtInWorldUnit(currentWorldPos, out pos, out rot);
 
-            float powerupChance = Mathf.Clamp01(Mathf.Floor(m_TimeSincePowerup) * 0.5f * 0.001f);
-            float premiumChance = Mathf.Clamp01(Mathf.Floor(m_TimeSinceLastPremium) * 0.5f * 0.0001f);
 
-            while (currentWorldPos < segment.worldLength)
+            bool laneValid = true;
+            int testedLane = currentLane;
+            while (Physics.CheckSphere(pos + ((testedLane - 1) * laneOffset * (rot * Vector3.right)), 0.4f, 1 << 9))
             {
-                Vector3 pos;
-                Quaternion rot;
-                segment.GetPointAtInWorldUnit(currentWorldPos, out pos, out rot);
-
-
-                bool laneValid = true;
-                int testedLane = currentLane;
-                while (Physics.CheckSphere(pos + ((testedLane - 1) * laneOffset * (rot * Vector3.right)), 0.4f, 1 << 9))
+                testedLane = (testedLane + 1) % 3;
+                if (currentLane == testedLane)
                 {
-                    testedLane = (testedLane + 1) % 3;
-                    if (currentLane == testedLane)
+                    // Couldn't find a valid lane.
+                    laneValid = false;
+                    break;
+                }
+            }
+
+            currentLane = testedLane;
+
+            if (laneValid)
+            {
+                pos = pos + ((currentLane - 1) * laneOffset * (rot * Vector3.right));
+
+                bool positionOccupiedByObstacle = false;
+                if (segment.obstaclePositionsInWorld != null)
+                {
+                    foreach (Vector3 obstaclePos in segment.obstaclePositionsInWorld)
                     {
-                        // Couldn't find a valid lane.
-                        laneValid = false;
-                        break;
+                        if (Vector3.Distance(obstaclePos, pos) < 3.0f) // Promenite ovu vrednost prema potrebi
+                        {
+                            positionOccupiedByObstacle = true;
+                            break;
+                        }
                     }
                 }
 
-                currentLane = testedLane;
-
-                if (laneValid)
+                if (!positionOccupiedByObstacle)
                 {
-                    pos = pos + ((currentLane - 1) * laneOffset * (rot * Vector3.right));
-
-                    bool positionOccupiedByObstacle = false;
-                    if (segment.obstaclePositionsInWorld != null)
+                    GameObject toUse = null;
+                    if (UnityEngine.Random.value < powerupChance)
                     {
-                        foreach (Vector3 obstaclePos in segment.obstaclePositionsInWorld)
+                        int picked = UnityEngine.Random.Range(0, consumableDatabase.consumbales.Length);
+
+                        //if the powerup can't be spawned, we don't reset the time since powerup to continue to have a high chance of picking one next track segment
+                        if (consumableDatabase.consumbales[picked].canBeSpawned)
                         {
-                            if (Vector3.Distance(obstaclePos, pos) < 3.0f) // Promenite ovu vrednost prema potrebi
-                            {
-                                positionOccupiedByObstacle = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!positionOccupiedByObstacle)
-                    {
-                        GameObject toUse = null;
-                        if (UnityEngine.Random.value < powerupChance)
-                        {
-                            int picked = UnityEngine.Random.Range(0, consumableDatabase.consumbales.Length);
-
-                            //if the powerup can't be spawned, we don't reset the time since powerup to continue to have a high chance of picking one next track segment
-                            if (consumableDatabase.consumbales[picked].canBeSpawned)
-                            {
-                                // Spawn a powerup instead.
-                                m_TimeSincePowerup = 0.0f;
-                                powerupChance = 0.0f;
-
-                                AsyncOperationHandle op =
-                                    Addressables.InstantiateAsync(
-                                        consumableDatabase.consumbales[picked].gameObject.name, pos, rot);
-                                yield return op;
-                                if (op.Result == null || !(op.Result is GameObject))
-                                {
-                                    Debug.LogWarning(string.Format("Unable to load consumable {0}.",
-                                        consumableDatabase.consumbales[picked].gameObject.name));
-                                    yield break;
-                                }
-
-                                toUse = op.Result as GameObject;
-                                toUse.transform.SetParent(segment.transform, true);
-                            }
-                        }
-                        else if (UnityEngine.Random.value < premiumChance)
-                        {
-                            m_TimeSinceLastPremium = 0.0f;
-                            premiumChance = 0.0f;
+                            // Spawn a powerup instead.
+                            m_TimeSincePowerup = 0.0f;
+                            powerupChance = 0.0f;
 
                             AsyncOperationHandle op =
-                                Addressables.InstantiateAsync(currentTheme.premiumCollectible.name, pos, rot);
+                                Addressables.InstantiateAsync(
+                                    consumableDatabase.consumbales[picked].gameObject.name, pos, rot);
                             yield return op;
                             if (op.Result == null || !(op.Result is GameObject))
                             {
-                                Debug.LogWarning(string.Format("Unable to load collectable {0}.",
-                                    currentTheme.premiumCollectible.name));
+                                Debug.LogWarning(string.Format("Unable to load consumable {0}.",
+                                    consumableDatabase.consumbales[picked].gameObject.name));
                                 yield break;
                             }
 
                             toUse = op.Result as GameObject;
                             toUse.transform.SetParent(segment.transform, true);
                         }
-                        else
+                    }
+                    else if (UnityEngine.Random.value < premiumChance)
+                    {
+                        m_TimeSinceLastPremium = 0.0f;
+                        premiumChance = 0.0f;
+
+                        AsyncOperationHandle op =
+                            Addressables.InstantiateAsync(currentTheme.premiumCollectible.name, pos, rot);
+                        yield return op;
+                        if (op.Result == null || !(op.Result is GameObject))
                         {
-                            toUse = Coin.coinPool.Get(pos, rot);
-                            toUse.transform.SetParent(segment.collectibleTransform, true);
+                            Debug.LogWarning(string.Format("Unable to load collectable {0}.",
+                                currentTheme.premiumCollectible.name));
+                            yield break;
                         }
 
-                        if (toUse != null)
-                        {
-                            //TODO : remove that hack related to #issue7
-                            Vector3 oldPos = toUse.transform.position;
-                            toUse.transform.position += Vector3.back;
-                            toUse.transform.position = oldPos;
-                        }
+                        toUse = op.Result as GameObject;
+                        toUse.transform.SetParent(segment.transform, true);
+                    }
+                    else
+                    {
+                        toUse = Coin.coinPool.Get(pos, rot);
+                        toUse.transform.SetParent(segment.collectibleTransform, true);
+                    }
+
+                    if (toUse != null)
+                    {
+                        //TODO : remove that hack related to #issue7
+                        Vector3 oldPos = toUse.transform.position;
+                        toUse.transform.position += Vector3.back;
+                        toUse.transform.position = oldPos;
                     }
                 }
-
-                currentWorldPos += increment;
             }
+            currentWorldPos += increment;
         }
+        
     }
 
     public void AddScore(int amount)
     {
         int finalAmount = amount;
         m_Score += finalAmount * m_Multiplier;
+    }
+
+    IEnumerator DestroyPastSegmentsRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(30f); // Wait for 30 seconds before performing cleanup
+
+            CleanupPastSegments();
+        }
+    }
+
+    private void CleanupPastSegments()
+    {
+        for (int i = m_PastSegments.Count - 1; i >= 0; i--)
+        {
+            if (m_PastSegments[i] != null && (m_PastSegments[i].transform.position - characterController.transform.position).z < k_SegmentRemovalDistance)
+            {
+                Addressables.ReleaseInstance(m_PastSegments[i].gameObject);
+                m_PastSegments.RemoveAt(i);
+            }
+        }
     }
 }

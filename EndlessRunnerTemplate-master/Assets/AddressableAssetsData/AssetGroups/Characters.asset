@@ -58,22 +58,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - characters
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 32f3596dc804ab74b91543c537e48ab2
-    m_Address: Assets/DeepNest/Devil_Bulldog_Lite/Prefabs/DB_Toon
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5d29e217ab3c1874d8d99169dabbbe35
-    m_Address: Assets/Bundles/Themes/NightTime/Urban/UrbanDumpsters01.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6a600bd780a71a04c80e23568bf7c2b0
-    m_Address: Assets/Bundles/Themes/NightTime/Industrial/Turn left.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - themeData
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e4440a2a8dffd9c46997e5cda20fa4b6
     m_Address: Assets/Bundles/Themes/NightTime/Industrial/Road rotated.prefab
     m_ReadOnly: 0
