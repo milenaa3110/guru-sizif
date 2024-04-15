@@ -103,6 +103,7 @@ public class TrackManager : MonoBehaviour
     protected float m_TimeSinceLastPremium;
 
     protected int m_Multiplier;
+    protected bool isPreviousLeft = false;
 
     protected List<TrackSegment> m_Segments = new List<TrackSegment>();
     protected List<TrackSegment> m_PastSegments = new List<TrackSegment>();
@@ -243,15 +244,6 @@ public class TrackManager : MonoBehaviour
             Coin.coinPool = new Pooler(currentTheme.collectiblePrefab, k_StartingCoinPoolSize);
 
             PlayerData.instance.StartRunMissions(this);
-
-#if UNITY_ANALYTICS
-            AnalyticsEvent.GameStart(new Dictionary<string, object>
-            {
-                { "theme", m_CurrentThemeData.themeName},
-                { "character", player.characterName },
-                { "accessory",  PlayerData.instance.usedAccessory >= 0 ? player.accessories[PlayerData.instance.usedAccessory].accessoryName : "none"}
-            });
-#endif
         }
 
         characterController.Begin();
@@ -559,7 +551,12 @@ public class TrackManager : MonoBehaviour
         Quaternion currentExitRotation;
         if (m_Segments.Count > 0)
         {
+            if (m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Left track")
+            {
+                m_Segments[m_Segments.Count - 1].selectedPathIndex = 0;
+            }
             m_Segments[m_Segments.Count - 1].GetPointAt(1.0f, out currentExitPoint, out currentExitRotation);
+            
         }
         else
         {
@@ -584,16 +581,16 @@ public class TrackManager : MonoBehaviour
             m_Segments[m_Segments.Count - 1].selectedPathIndex = 1;
         }
 
-        if (newSegment.tag == "Left track" && m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Left track")
+        if (newSegment.tag == "Left track" && m_Segments.Count > 0 && isPreviousLeft)
         {
             pos.x = currentExitPoint.x - difference.z;
             pos.y = 0;
             pos.z = currentExitPoint.z + difference.x;
         }
-        else if (m_Segments.Count > 0 &&  m_Segments[m_Segments.Count - 1].tag == "Left track") {
-            pos.x = currentExitPoint.x + difference.z;
+        else if (m_Segments.Count > 0 &&  isPreviousLeft) {
+            pos.x = currentExitPoint.x - difference.z;
             pos.y = 0;
-            pos.z = currentExitPoint.z - difference.x;
+            pos.z = currentExitPoint.z + difference.x;
         }
         else
         {
@@ -625,8 +622,11 @@ public class TrackManager : MonoBehaviour
             m_SafeSegementLeft -= 1;
 
         m_Segments.Add(newSegment);
-
-        if (newSegmentCreated != null) newSegmentCreated.Invoke(newSegment);
+        isPreviousLeft = newSegment.tag == "Left track";
+        if (newSegmentCreated != null) {
+            
+            newSegmentCreated.Invoke(newSegment);
+        } 
     }
     
     

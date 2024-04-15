@@ -159,7 +159,7 @@ public class PlayerData
         Save();
     }
 
-	// High Score management
+    // High Score management
 
 	public int GetScorePlace(int score)
 	{
@@ -223,6 +223,7 @@ public class PlayerData
 		m_Instance.missions.Clear();
 		m_Instance.characterAccessories.Clear();
 		m_Instance.consumables.Clear();
+        m_Instance.highscores.Clear();
 
 		m_Instance.usedCharacter = 0;
 		m_Instance.usedTheme = 0;

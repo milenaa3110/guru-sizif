@@ -59,10 +59,6 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  - m_AssetGUID: f80cbcf50866a064c84dfca9861e6ecc
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
   - m_AssetGUID: 61bb777a99260874f88fe72c93801af9
     m_SubObjectName: 
     m_SubObjectType: 
@@ -76,8 +72,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   selectedPathIndex: 0
-  obstaclePositions:
-  - 0.548
+  obstaclePositions: []
 --- !u!23 &6399934790614700056
 MeshRenderer:
   m_ObjectHideFlags: 0
