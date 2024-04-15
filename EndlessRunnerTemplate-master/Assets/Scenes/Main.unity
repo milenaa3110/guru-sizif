@@ -3317,7 +3317,7 @@ MonoBehaviour:
   trackManager: {fileID: 1958487560}
   canvas: {fileID: 455205751}
   missionPopup: {fileID: 1177894625}
-  gameOverTheme: {fileID: 8300000, guid: 15e26518785848f4caf8ba236b4d0690, type: 3}
+  gameOverTheme: {fileID: 8300000, guid: 82e0547b9d1439a43aba49525c578d5b, type: 3}
   miniLeaderboard: {fileID: 859562874}
   fullLeaderboard: {fileID: 1815696064}
   addButton: {fileID: 0}
@@ -7780,7 +7780,7 @@ MonoBehaviour:
   runButton: {fileID: 1393864684}
   skyMeshFilter: {fileID: 1222759691}
   UIGroundFilter: {fileID: 517316206}
-  menuTheme: {fileID: 8300000, guid: 1588137430bfbab4b9a00ba3b220b82b, type: 3}
+  menuTheme: {fileID: 8300000, guid: 5535af957683c3f45a8bc62a85e3081d, type: 3}
   consumableIcon: {fileID: 11439736, guid: 0c5f0793b82536342bd64bc3e3fdee8a, type: 3}
 --- !u!1 &878427076
 GameObject:
@@ -12818,7 +12818,7 @@ MonoBehaviour:
   canvas: {fileID: 1245236424}
   trackManager: {fileID: 1958487560}
   controller: {fileID: 0}
-  gameTheme: {fileID: 8300000, guid: 31e35e3eca6ef994795e7e8d05379795, type: 3}
+  gameTheme: {fileID: 8300000, guid: 7f7537617949fcd479e96e2953b62b03, type: 3}
   coinText: {fileID: 50343042}
   premiumText: {fileID: 1226467019}
   scoreText: {fileID: 780872363}
@@ -26921,8 +26921,6 @@ MonoBehaviour:
   slideSound: {fileID: 8300000, guid: febd5a5a8b245774fbfa9f0bef51e0b6, type: 3}
   powerUpUseSound: {fileID: 8300000, guid: defdb98bfddc24748aead1ce73ba7972, type: 3}
   powerupSource: {fileID: 2094493435}
-  currentTutorialLevel: 0
-  tutorialWaitingForValidation: 0
 --- !u!4 &2094493433
 Transform:
   m_ObjectHideFlags: 0

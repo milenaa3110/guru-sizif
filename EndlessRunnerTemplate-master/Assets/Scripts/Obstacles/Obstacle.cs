@@ -26,10 +26,6 @@ public abstract class Obstacle : MonoBehaviour
 
 		if (audioSource != null && impactedSound != null)
 		{
-            //audioSource.Stop();
-            //audioSource.loop = false;
-            //audioSource.clip = impactedSound;
-            //audioSource.Play();
             MusicPlayer.instance.PlayNewClipAndResume(impactedSound);
         }
 	}

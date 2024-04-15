@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 15
   icon: {fileID: 21300000, guid: 38f9bcc714de07e4da41ef14ee4d697e, type: 3}
-  activatedSound: {fileID: 8300000, guid: 94edc349498c5a94c8b7af6292b8166b, type: 3}
+  activatedSound: {fileID: 8300000, guid: b6da92553b1d69a4dbac88f003989a10, type: 3}
   ActivatedParticleReference:
     m_AssetGUID: 8cede34fb26a722408198e0d27628ae9
     m_SubObjectName: 

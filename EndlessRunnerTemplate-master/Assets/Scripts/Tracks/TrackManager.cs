@@ -178,6 +178,7 @@ public class TrackManager : MonoBehaviour
 
     public IEnumerator Begin()
     {
+        straightSegmentsCount = 0;
         if (!m_Rerun)
         {
             firstObstacle = true;
@@ -518,24 +519,32 @@ public class TrackManager : MonoBehaviour
         
 
         int segmentUse = UnityEngine.Random.Range(0, m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length);
-        if (segmentUse == m_PreviousSegment) segmentUse = (segmentUse + 1) % m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length;
+        //if (segmentUse == m_PreviousSegment) segmentUse = (segmentUse + 1) % m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length;
 
-        bool isTurn = true;
-        if (isTurn && straightSegmentsCount < MinStraightBeforeTurn)
+        bool isTurn = segmentUse == 2;
+        
+        if (isTurn && straightSegmentsCount < MinStraightBeforeTurn )
         {
-            // Not enough straight segments have been spawned, force a straight segment instead
-            segmentUse = 0; // You'll need to implement this method
-            straightSegmentsCount++; // Increment because we are spawning a straight segment
+            segmentUse = 0;
+            straightSegmentsCount++;
         }
         else if (!isTurn)
         {
-            // Increment the straight segments count
+
             straightSegmentsCount++;
         }
         else
         {
-            // It's a turn and we have enough straight segments
-            straightSegmentsCount = 0; // Reset the counter
+            if (m_PreviousSegment == 1)
+            {
+                segmentUse = 0;
+                straightSegmentsCount++;
+                
+            }
+            else
+            {
+                straightSegmentsCount = 0; 
+            }
         }
 
         AsyncOperationHandle segmentToUseOp = m_CurrentThemeData.zones[m_CurrentZone].prefabList[segmentUse].InstantiateAsync(_offScreenSpawnPos, Quaternion.identity);
