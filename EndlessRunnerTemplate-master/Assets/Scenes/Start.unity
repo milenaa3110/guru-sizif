@@ -602,6 +602,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82094754644436538, guid: fc9855a6b2a67364ebc0db28e7bbc98b,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 67d1bc345123e9a46831e3bd32b4b28d, type: 3}
     - target: {fileID: 82452598859346016, guid: fc9855a6b2a67364ebc0db28e7bbc98b,
         type: 3}
       propertyPath: spreadCustomCurve.m_RotationOrder
@@ -620,9 +625,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 114322282601092784, guid: fc9855a6b2a67364ebc0db28e7bbc98b,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114322282601092784, guid: fc9855a6b2a67364ebc0db28e7bbc98b,
+        type: 3}
       propertyPath: stems.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 1588137430bfbab4b9a00ba3b220b82b, type: 3}
+      objectReference: {fileID: 8300000, guid: 67d1bc345123e9a46831e3bd32b4b28d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

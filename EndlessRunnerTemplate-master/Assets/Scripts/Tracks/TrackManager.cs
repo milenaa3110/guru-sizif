@@ -73,7 +73,7 @@ public class TrackManager : MonoBehaviour
     public float worldDistance { get { return m_TotalWorldDistance; } }
     public float speed { 
         get { return m_Speed; }
-        set { }
+        set { m_Speed = value;}
     }
     public float speedRatio { get { return (m_Speed - minSpeed) / (maxSpeed - minSpeed); } }
     public int currentZone { get { return m_CurrentZone; } }
@@ -104,7 +104,8 @@ public class TrackManager : MonoBehaviour
 
     protected int m_Multiplier;
     protected bool isPreviousLeft = false;
-
+    protected bool isPreviousRight = false;
+    
     protected List<TrackSegment> m_Segments = new List<TrackSegment>();
     protected List<TrackSegment> m_PastSegments = new List<TrackSegment>();
     protected int m_SafeSegementLeft;
@@ -521,7 +522,7 @@ public class TrackManager : MonoBehaviour
         int segmentUse = UnityEngine.Random.Range(0, m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length);
         //if (segmentUse == m_PreviousSegment) segmentUse = (segmentUse + 1) % m_CurrentThemeData.zones[m_CurrentZone].prefabList.Length;
 
-        bool isTurn = segmentUse == 2;
+        bool isTurn = segmentUse == 2 || segmentUse == 3;
         
         if (isTurn && straightSegmentsCount < MinStraightBeforeTurn )
         {
@@ -535,16 +536,7 @@ public class TrackManager : MonoBehaviour
         }
         else
         {
-            if (m_PreviousSegment == 1)
-            {
-                segmentUse = 0;
-                straightSegmentsCount++;
-                
-            }
-            else
-            {
-                straightSegmentsCount = 0; 
-            }
+            straightSegmentsCount = 0;
         }
 
         AsyncOperationHandle segmentToUseOp = m_CurrentThemeData.zones[m_CurrentZone].prefabList[segmentUse].InstantiateAsync(_offScreenSpawnPos, Quaternion.identity);
@@ -589,17 +581,27 @@ public class TrackManager : MonoBehaviour
         if (m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Left track") {
             m_Segments[m_Segments.Count - 1].selectedPathIndex = 1;
         }
+        
+        if (m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Right track") {
+            m_Segments[m_Segments.Count - 1].selectedPathIndex = 1;
+        }
 
         if (newSegment.tag == "Left track" && m_Segments.Count > 0 && isPreviousLeft)
         {
             pos.x = currentExitPoint.x - difference.z;
-            pos.y = 0;
+            pos.y = currentExitPoint.y;
             pos.z = currentExitPoint.z + difference.x;
         }
         else if (m_Segments.Count > 0 &&  isPreviousLeft) {
             pos.x = currentExitPoint.x - difference.z;
-            pos.y = 0;
+            pos.y = currentExitPoint.y;
             pos.z = currentExitPoint.z + difference.x;
+        }
+        else if (m_Segments.Count > 0 && isPreviousRight)
+        {
+            pos.x = currentExitPoint.x;
+            pos.y = currentExitPoint.y;
+            pos.z = currentExitPoint.z;
         }
         else
         {
@@ -615,14 +617,24 @@ public class TrackManager : MonoBehaviour
 
         //newSegment.transform.localScale = new Vector3((Random.value > 0.5f ? -1 : 1), 1, 1);
         //newSegment.objectRoot.localScale = new Vector3(1.0f / newSegment.transform.localScale.x, 1, 1);
-        if (newSegment.tag == "Left track")
+        if (newSegment.CompareTag("Left track"))
         {
             // Rotate scene left
             //StartCoroutine(RotateScene(new Vector3(0, -90, 0), 1f)); // Adjust rotation and duration as needed
             currentSceneRotation *= Quaternion.Euler(0, -90, 0);
-            Debug.Log("Left track");
         }
-
+        else if (newSegment.CompareTag("Right track"))
+        {
+            // Rotate scene right
+            //StartCoroutine(RotateScene(new Vector3(0, 90, 0), 1f)); // Adjust rotation and duration as needed
+            currentSceneRotation *= Quaternion.Euler(0, 90, 0);
+        }
+        // else
+        // {
+        //     // Reset scene rotation
+        //     //StartCoroutine(RotateScene(new Vector3(0, 0, 0), 1f)); // Adjust rotation and duration as needed
+        //     currentSceneRotation = Quaternion.identity;
+        // }
         if (m_SafeSegementLeft <= 0)
         {
             SpawnObstacle(newSegment);
@@ -632,6 +644,7 @@ public class TrackManager : MonoBehaviour
 
         m_Segments.Add(newSegment);
         isPreviousLeft = newSegment.tag == "Left track";
+        isPreviousRight = newSegment.tag == "Right track";
         if (newSegmentCreated != null) {
             
             newSegmentCreated.Invoke(newSegment);
@@ -642,7 +655,7 @@ public class TrackManager : MonoBehaviour
 
     public void SpawnObstacle(TrackSegment segment)
     {
-        if (m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Left track")
+        if (m_Segments.Count > 0 && m_Segments[m_Segments.Count - 1].tag == "Left track" || m_Segments[m_Segments.Count - 1].tag == "Right track" )
         {
             return;
         }

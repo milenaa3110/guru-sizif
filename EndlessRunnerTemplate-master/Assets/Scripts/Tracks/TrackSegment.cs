@@ -34,9 +34,6 @@ public class TrackSegment : MonoBehaviour
 
     protected float m_WorldLength;
 
-    private float leftTiltTime = 0f;
-    private float tiltValidationInterval = 0.2f;
-
     void Update()
     {
 
@@ -53,6 +50,19 @@ public class TrackSegment : MonoBehaviour
             { // Threshold value, adjust based on your testing
                 selectedPathIndex = 0;
                 Debug.Log("Detected left tilt, path index set to 0.");
+            }
+        }
+        else if (gameObject.name.Contains("Road right"))
+        {
+            // Assuming the device is being held upright in a landscape orientation
+            // You may need to adjust the axis based on how you expect the device to be held
+            float accelerationX = Input.acceleration.x;
+
+            // Detect right tilt; positive x acceleration might indicate tilting to the right
+            if (accelerationX > 0.5f)
+            { // Threshold value, adjust based on your testing
+                selectedPathIndex = 0; // Assuming 1 is the index for the right path
+                Debug.Log("Detected right tilt, path index set to 1.");
             }
         }
     }

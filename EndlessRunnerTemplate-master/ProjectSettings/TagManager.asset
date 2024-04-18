@@ -8,6 +8,7 @@ TagManager:
   - Left track
   - Left track Colider
   - Uphill
+  - Right track
   layers:
   - Default
   - TransparentFX

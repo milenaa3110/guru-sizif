@@ -8,7 +8,9 @@ public class SlowDown : Consumable
     {
         return "SlowDown";
     }
-
+    
+    protected float speed = 0;
+    
     public override ConsumableType GetConsumableType()
     {
         return ConsumableType.SLOW_DOWN;
@@ -27,20 +29,15 @@ public class SlowDown : Consumable
     public override IEnumerator Started(CharacterInputController c)
     {
         yield return base.Started(c);
-
-        if (c.trackManager.speed > c.trackManager.minSpeed)
-        {
-            c.trackManager.speed= c.trackManager.minSpeed;
-        }
+        this.speed = c.trackManager.speed;
+        c.trackManager.speed= c.trackManager.minSpeed;
+        
     }
 
     public override void Ended(CharacterInputController c)
     {
         base.Ended(c);
-
-        if (c.trackManager.speed < c.trackManager.maxSpeed)
-        {
-            c.trackManager.speed++;
-        }
+        c.trackManager.speed = this.speed;
+        
     }
 }
