@@ -70,7 +70,6 @@ public abstract class Consumable : MonoBehaviour
 
         if(ActivatedParticleReference != null)
         {
-            //Addressables 1.0.1-preview
             var op = ActivatedParticleReference.InstantiateAsync();
             yield return op;
             m_ParticleSpawned = op.Result.GetComponent<ParticleSystem>();

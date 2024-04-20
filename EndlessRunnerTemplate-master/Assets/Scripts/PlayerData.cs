@@ -447,13 +447,13 @@ public class PlayerData
 #if UNITY_EDITOR
 public class PlayerDataEditor : Editor
 {
-	[MenuItem("Trash Dash Debug/Clear Save")]
+	[MenuItem("Guru Sizif/Clear Save")]
     static public void ClearSave()
     {
         File.Delete(Application.persistentDataPath + "/save.bin");
     } 
 
-    [MenuItem("Trash Dash Debug/Give 1000000 coins and 1000 premium")]
+    [MenuItem("Guru Sizif/Give 1000000 coins and 1000 premium")]
     static public void GiveCoins()
     {
         PlayerData.instance.coins += 1000000;
@@ -461,7 +461,7 @@ public class PlayerDataEditor : Editor
         PlayerData.instance.Save();
     }
 
-    [MenuItem("Trash Dash Debug/Give 10 Consumables of each types")]
+    [MenuItem("Guru Sizif/Give 10 Consumables of each types")]
     static public void AddConsumables()
     {
        

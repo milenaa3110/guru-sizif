@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class SpeedUp : Consumable
 {
-
-    protected float speed = 0;
     public override string GetConsumableName()
     {
-        return "SpeedUp";
+        return "Pegazovo krilo";
     }
 
     public override ConsumableType GetConsumableType()
@@ -29,15 +27,20 @@ public class SpeedUp : Consumable
     public override IEnumerator Started(CharacterInputController c)
     {
         yield return base.Started(c);
-        this.speed = c.trackManager.speed;
-        c.trackManager.speed = c.trackManager.maxSpeed;
-        
+        if (c.trackManager.speed != c.trackManager.maxSpeed)
+        {
+            c.trackManager.speed += 1;
+        }
+
     }
 
     public override void Ended(CharacterInputController c)
     {
         base.Ended(c);
 
-        c.trackManager.speed = this.speed;
+        if (c.trackManager.speed != c.trackManager.minSpeed)
+        {
+            c.trackManager.speed -= 1;
+        }
     }
 }

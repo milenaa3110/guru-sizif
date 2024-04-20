@@ -25,10 +25,7 @@ MonoBehaviour:
   - m_GUID: 527cd33d94f565c428b85a011d736c3c
     m_Address: Invincibilty
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
-    - characters
-    - themeData
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c89761b43b2362418709a8178d5dd8c
     m_Address: CoinMagnet

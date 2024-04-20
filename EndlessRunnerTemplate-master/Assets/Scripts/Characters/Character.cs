@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     public int cost;
 	public int premiumCost;
 	public GameObject truck;
+    public GameObject stone;
 	public CharacterAccessories[] accessories;
 
     public Animator animator;
@@ -30,5 +31,6 @@ public class Character : MonoBehaviour
             accessories[i].gameObject.SetActive(i == PlayerData.instance.usedAccessory);
         }
         truck.gameObject.SetActive(false);
+        stone.gameObject.SetActive(false);
     }
 }

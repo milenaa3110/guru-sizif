@@ -6,10 +6,8 @@ public class SlowDown : Consumable
 {
     public override string GetConsumableName()
     {
-        return "SlowDown";
+        return "Paunova frula";
     }
-    
-    protected float speed = 0;
     
     public override ConsumableType GetConsumableType()
     {
@@ -29,15 +27,20 @@ public class SlowDown : Consumable
     public override IEnumerator Started(CharacterInputController c)
     {
         yield return base.Started(c);
-        this.speed = c.trackManager.speed;
-        c.trackManager.speed= c.trackManager.minSpeed;
+        if (c.trackManager.speed!= c.trackManager.minSpeed) {
+            c.trackManager.speed -= 1;
+        }
         
     }
 
     public override void Ended(CharacterInputController c)
     {
         base.Ended(c);
-        c.trackManager.speed = this.speed;
-        
+
+        if (c.trackManager.speed != c.trackManager.maxSpeed)
+        {
+            c.trackManager.speed += 1;
+        }
+
     }
 }

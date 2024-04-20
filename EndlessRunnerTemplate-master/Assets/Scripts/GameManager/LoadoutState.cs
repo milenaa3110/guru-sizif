@@ -22,11 +22,6 @@ public class LoadoutState : AState
 	public RectTransform charSelect;
 	public Transform charPosition;
 
-	[Header("Theme UI")]
-	public Text themeNameDisplay;
-	public RectTransform themeSelect;
-	public Image themeIcon;
-
 	[Header("PowerUp UI")]
 	public RectTransform powerupSelect;
 	public Image powerupIcon;
@@ -128,6 +123,7 @@ public class LoadoutState : AState
                 gs.trackManager.characterController.inventory = inv;
             }
         }
+        
     }
 
     public void Refresh()

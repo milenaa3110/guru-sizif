@@ -32,11 +32,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9115e1933724c964b816c92ff9977f82
-    m_Address: Pillar marble prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f80cbcf50866a064c84dfca9861e6ecc
     m_Address: obstacle demon
     m_ReadOnly: 0

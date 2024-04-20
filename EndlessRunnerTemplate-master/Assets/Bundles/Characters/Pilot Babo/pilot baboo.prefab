@@ -1,5 +1,111 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5585665485003689995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8698187727901206677}
+  - component: {fileID: 2374550719011298065}
+  - component: {fileID: 176743058073425924}
+  - component: {fileID: 8666544364892149156}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8698187727901206677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585665485003689995}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0000000018626451, y: 0.0000000618013, z: 0.000000052147413,
+    w: 1}
+  m_LocalPosition: {x: 0, y: -0.04, z: 1.26}
+  m_LocalScale: {x: 1.1666664, y: 1.1666664, z: 1.1666664}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2471356765043865907}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2374550719011298065
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585665485003689995}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &176743058073425924
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585665485003689995}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &8666544364892149156
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585665485003689995}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &734504807879910939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14,6 +120,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 811fcb97eaf7e1740a3ddead028abeca,
         type: 3}
+    - target: {fileID: 3905299228369813261, guid: d534bfcca9f878a4ea64be7c8a1b6aa7,
+        type: 3}
+      propertyPath: accessoryName
+      value: Slem
+      objectReference: {fileID: 0}
     - target: {fileID: 5155037811886335945, guid: d534bfcca9f878a4ea64be7c8a1b6aa7,
         type: 3}
       propertyPath: m_Name
@@ -212,6 +323,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1468136028714096923}
+    - targetCorrespondingSourceObject: {fileID: 369816309878621660, guid: 3c16fe8df9950f14d9c276491f3d9356,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8698187727901206677}
     - targetCorrespondingSourceObject: {fileID: 5896082807412891867, guid: 3c16fe8df9950f14d9c276491f3d9356,
         type: 3}
       insertIndex: -1
@@ -233,6 +348,12 @@ PrefabInstance:
 --- !u!4 &2365048408594681527 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 558317590760862296, guid: 3c16fe8df9950f14d9c276491f3d9356,
+    type: 3}
+  m_PrefabInstance: {fileID: 2841168949465627887}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2471356765043865907 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 369816309878621660, guid: 3c16fe8df9950f14d9c276491f3d9356,
     type: 3}
   m_PrefabInstance: {fileID: 2841168949465627887}
   m_PrefabAsset: {fileID: 0}
@@ -279,6 +400,7 @@ MonoBehaviour:
   cost: 100
   premiumCost: 0
   truck: {fileID: 2239429603829777313}
+  stone: {fileID: 5585665485003689995}
   accessories:
   - {fileID: 4324322943005448470}
   - {fileID: 9017361404243795028}
@@ -307,6 +429,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a38df5413f10d674f899384ef3779ff8,
         type: 3}
+    - target: {fileID: 1406395573798156673, guid: ca0e676f2fa0f0141b2a0ebe1c347446,
+        type: 3}
+      propertyPath: accessoryName
+      value: Crveni slem
+      objectReference: {fileID: 0}
     - target: {fileID: 7025207044244241048, guid: ca0e676f2fa0f0141b2a0ebe1c347446,
         type: 3}
       propertyPath: m_Name
