@@ -2,9 +2,6 @@
 using System.Collections;
 using UnityEngine.AddressableAssets;
 
-/// <summary>
-/// Defines a consumable (called "power up" in game). Each consumable is derived from this and implements its functions.
-/// </summary>
 public abstract class Consumable : MonoBehaviour
 {
     public float duration;
@@ -16,14 +13,13 @@ public abstract class Consumable : MonoBehaviour
         SCORE_MULTIPLAYER,
         INVINCIBILITY,
         EXTRALIFE,
-		MAX_COUNT,
         SPEED_UP,
         SLOW_DOWN,
+        MAX_COUNT,
     }
 
     public Sprite icon;
 	public AudioClip activatedSound;
-    //public ParticleSystem activatedParticle;
     public AssetReference ActivatedParticleReference;
     public bool canBeSpawned = true;
 
@@ -34,9 +30,6 @@ public abstract class Consumable : MonoBehaviour
     protected float m_SinceStart;
     protected ParticleSystem m_ParticleSpawned;
 
-    // Here - for the sake of showing diverse way of doing things - we use abstract functions to get the data for each consumable.
-    // Another way to do it would be to have public field, like the Character or Accesories use, and define all those on the prefabs instead of here.
-    // This method allows information to be all in code (so no need for prefab etc.) the other make it easier to modify without recompiling/by non-programmer.
     public abstract ConsumableType GetConsumableType();
     public abstract string GetConsumableName();
     public abstract int GetPrice();
@@ -47,7 +40,6 @@ public abstract class Consumable : MonoBehaviour
         m_SinceStart = 0;
     }
 
-    //override this to do test to make a consumable not usable (e.g. used by the ExtraLife to avoid using it when at full health)
     public virtual bool CanBeUsed(CharacterInputController c)
     {
         return true;
@@ -61,12 +53,6 @@ public abstract class Consumable : MonoBehaviour
         {
             MusicPlayer.instance.PlayNewClipAndResume(activatedSound);
         }
-        
-		// if (activatedSound != null)
-		// {
-		// 	c.powerupSource.clip = activatedSound;
-		// 	c.powerupSource.Play();
-		// }
 
         if(ActivatedParticleReference != null)
         {
@@ -89,7 +75,6 @@ public abstract class Consumable : MonoBehaviour
 
     public virtual void Tick(CharacterInputController c)
     {
-        // By default do nothing, override to do per frame manipulation
         m_SinceStart += Time.deltaTime;
         if (m_SinceStart >= duration)
         {
@@ -112,7 +97,7 @@ public abstract class Consumable : MonoBehaviour
         for (int i = 0; i < c.consumables.Count; ++i)
         {
             if (c.consumables[i].active && c.consumables[i].activatedSound != null)
-            {//if there is still an active consumable that have a sound, this is the one playing now
+            {
                 c.powerupSource.clip = c.consumables[i].activatedSound;
                 c.powerupSource.Play();
             }

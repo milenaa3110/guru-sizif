@@ -8,7 +8,6 @@ public class LicenceDisplayer : MonoBehaviour
 
 	    if(PlayerData.instance.licenceAccepted)
         {
-            // If we have already accepted the licence, we close the popup, no need for it.
             Close();
         }	
 	}

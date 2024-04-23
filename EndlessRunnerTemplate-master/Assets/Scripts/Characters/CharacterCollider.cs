@@ -5,10 +5,6 @@ using UnityEngine.AddressableAssets;
 using System.Diagnostics;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
-/// <summary>
-/// Handles everything related to the collider of the character. This is actually an empty game object, NOT on the character prefab
-/// as for gameplay reason, we need a single size collider for every character. (Found on the Main scene PlayerPivot/CharacterSlot gameobject)
-/// </summary>
 [RequireComponent(typeof(AudioSource))]
 public class CharacterCollider : MonoBehaviour
 {
@@ -16,8 +12,6 @@ public class CharacterCollider : MonoBehaviour
     static int s_FallHash = Animator.StringToHash("Fall");
     static int s_BlinkingValueHash;
 
-    // Used mainly by by analytics, but not in an analytics ifdef block 
-    // so that the data is available to anything (e.g. could be used for player stat saved locally etc.)
 	public struct DeathEvent
     {
         public string character;
@@ -41,7 +35,6 @@ public class CharacterCollider : MonoBehaviour
 
     public DeathEvent deathData { get { return m_DeathData; } }
     public new BoxCollider collider { get { return m_Collider; } }
-
 	public new AudioSource audio { get { return m_Audio; } }
 
     [HideInInspector]
@@ -76,7 +69,7 @@ public class CharacterCollider : MonoBehaviour
 	{
 		koParticle.gameObject.SetActive(false);
 
-		s_BlinkingValueHash = Shader.PropertyToID("_BlinkingValue");
+		s_BlinkingValueHash = Shader.PropertyToID("_BlinkingValue"); //set to 0.0f
 		m_Invincible = false;
 	}
 
@@ -96,7 +89,6 @@ public class CharacterCollider : MonoBehaviour
 
     protected void Update()
 	{
-        // Every coin registered to the magnetCoin list (used by the magnet powerup exclusively, but could be used by other power up) is dragged toward the player.
 		for(int i = 0; i < magnetCoins.Count; ++i)
 		{
             magnetCoins[i].transform.position = Vector3.MoveTowards(magnetCoins[i].transform.position, transform.position, k_MagnetSpeed * Time.deltaTime);
@@ -110,73 +102,25 @@ public class CharacterCollider : MonoBehaviour
 
     private IEnumerator FallRoutine()
     {
-        float fallDuration = 2f; // Duration of the fall in seconds
-        float fallDepth = -5f; // How deep the character falls
-        Vector3 startPosition = transform.position; // Starting position
+        float fallDuration = 2f;
+        float fallDepth = -5f;
+        Vector3 startPosition = transform.position;
         Vector3 endPosition = new Vector3(startPosition.x, startPosition.y + fallDepth, startPosition.z); // End position after falling
 
         float elapsedTime = 0f;
 
         while (elapsedTime < fallDuration)
         {
-            // Move the character towards the end position over time
             transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / fallDuration));
-            elapsedTime += Time.deltaTime; // Increment elapsed time
-            yield return null; // Wait for the next frame
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
 
         transform.position = endPosition;
     }
 
-    public void moveForward()
-    {
-        StartCoroutine(MoveForwardRoutine());
-    }
-
-    private IEnumerator MoveForwardRoutine()
-    {
-        UnityEngine.Debug.Log("MoveForwardRoutine started"); // Confirm the routine starts
-        float moveDuration = 1f; // Duration of the forward movement in seconds
-        float moveDistance = 50f; // How far the character moves forward
-        Vector3 startPosition = transform.position; // Starting position
-
-        Vector3 endPosition = startPosition + transform.forward * moveDistance; // Calculate end position
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < moveDuration)
-        {
-            transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / moveDuration));
-            elapsedTime += Time.deltaTime;
-            UnityEngine.Debug.Log($"Moving: {transform.position}"); // Log position for debugging
-            yield return null;
-        }
-        UnityEngine.Debug.Log("MoveForwardRoutine completed"); // Confirm the routine completes
-    }
-
-
-
-    IEnumerator CheckForLeftTurn()
-    {
-        yield return new WaitForSeconds(0.5f); // Short delay to give the player time to react
-
-        bool success = Input.gyro.rotationRateUnbiased.y < -0.8f; // Check for tilt to the left
-        
-
-
-        if (success)
-        {
-        }
-        else
-        {
-
-            
-        }
-    }
-
     protected void OnTriggerEnter(Collider c)
-    {
-        
+    {    
         if (c.gameObject.layer == k_CoinsLayerIndex)
 		{
 			if (magnetCoins.Contains(c.gameObject))
@@ -206,8 +150,6 @@ public class CharacterCollider : MonoBehaviour
 
 			c.enabled = false;
 
-			UnityEngine.Debug.Log(c.GetType());
-
             Obstacle ob = c.gameObject.GetComponent<Obstacle>();
 
 			if (ob != null)
@@ -227,19 +169,14 @@ public class CharacterCollider : MonoBehaviour
 
 			if (controller.currentLife > 0)
 			{
-                //MusicPlayer.instance.PlayNewClipAndResume(controller.character.hitSound);
-
-                m_Audio.PlayOneShot(controller.character.hitSound);
 				SetInvincible();
 			}
-			// The collision killed the player, record all data to analytics.
+			
 			else
 			{
 				m_Audio.PlayOneShot(controller.character.deathSound);
-
 				m_DeathData.character = controller.character.characterName;
 				m_DeathData.themeUsed = controller.trackManager.currentTheme.themeName;
-                UnityEngine.Debug.Log(ob);
                 m_DeathData.obstacleType = ob.GetType().ToString();
 				
 				m_DeathData.coins = controller.coins;
@@ -279,7 +216,6 @@ public class CharacterCollider : MonoBehaviour
 	            MusicPlayer.instance.PlayNewClipAndResume(controller.character.hitSound);
 	            SetInvincible();
             }
-            // The collision killed the player, record all data to analytics.
             else
             {
                 m_Audio.PlayOneShot(controller.character.deathSound);
@@ -303,18 +239,16 @@ public class CharacterCollider : MonoBehaviour
 				controller.UseConsumable(consumable);
 			}
 		}
-        else if (c.CompareTag("Left track Colider")) // Assuming you tag your segments appropriately
+        else if (c.CompareTag("Left track Colider"))
         {
 
             controller.StopMoving();
             c.enabled = false;
             controller.currentLife = 0;
-            //moveForward();
-            // Directly add to the z position
             transform.position += new Vector3(0, 0, 1.0f);
 
             controller.character.animator.SetTrigger(s_FallHash);
-            FallIntoHole(); // Ensure this method properly handles the player's fall and potential game over logic
+            FallIntoHole();
             m_DeathData.character = controller.character.characterName;
             m_DeathData.themeUsed = controller.trackManager.currentTheme.themeName;
             m_DeathData.coins = controller.coins;
@@ -347,10 +281,6 @@ public class CharacterCollider : MonoBehaviour
 		while(time < timer && m_Invincible)
 		{
 			Shader.SetGlobalFloat(s_BlinkingValueHash, currentBlink);
-
-			// We do the check every frame instead of waiting for a full blink period as if the game slow down too much
-			// we are sure to at least blink every frame.
-            // If blink turns on and off in the span of one frame, we "miss" the blink, resulting in appearing not to blink.
             yield return null;
 			time += Time.deltaTime;
 			lastBlink += Time.deltaTime;

@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 
-/// <summary>
-/// Handle everything related to controlling the character. Interact with both the Character (visual, animation) and CharacterCollider
-/// </summary>
 public class CharacterInputController : MonoBehaviour
 {
     static int s_DeadHash = Animator.StringToHash ("Dead");
@@ -86,8 +83,6 @@ public class CharacterInputController : MonoBehaviour
     protected Vector2 m_StartingTouch;
 	protected bool m_IsSwiping = false;
 #endif
-
-    // Cheating functions, use for testing
 	public void CheatInvincible(bool invincible)
 	{
 		m_IsInvincible = invincible;
@@ -100,15 +95,6 @@ public class CharacterInputController : MonoBehaviour
 
     public void Init()
     {
-        if (SystemInfo.supportsGyroscope)
-        {
-            Input.gyro.enabled = true;
-        }
-        else
-        {
-            Debug.LogWarning("Gyroscope not supported on this device.");
-        }
-
         transform.position = k_StartingPosition;
 		m_TargetPosition = Vector3.zero;
 

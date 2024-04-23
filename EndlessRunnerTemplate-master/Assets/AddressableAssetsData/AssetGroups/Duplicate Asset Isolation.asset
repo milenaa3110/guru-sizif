@@ -17,16 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: a8fe4e1fa1fea394a996ab4b4963537b
   m_SerializeEntries:
-  - m_GUID: 0d9e50755a43a614a8233233466a4e80
-    m_Address: Assets/Sounds/SFX/TrafficCone.ogg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 115b0e1702f619f4eb691e43745e8ca4
-    m_Address: Assets/Sounds/SFX/WheelieBin.ogg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b7e99a6684bf49fa9bad5f4bb585fab
     m_Address: Assets/Sounds/Mixers/MainMix.mixer
     m_ReadOnly: 0
@@ -52,16 +42,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6707d904747d31c4eb049fc7a139eeb6
-    m_Address: Assets/Sounds/SFX/TrashCan.ogg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 692deea899152264f8419135ceefafcb
-    m_Address: Assets/Sounds/SFX/Rat/RatLoop1.ogg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6a31c5f9148e2ff4ea200e2ec3b4b1dc
     m_Address: Assets/Textures/CorrugatedMetalAlbedo.tif
     m_ReadOnly: 0
@@ -69,11 +49,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6f4ed16685a4be14fab2d5de621fb6ab
     m_Address: Assets/Materials/Pipe.mat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 90690b03aaccb6e4a96d2cdb757b3b44
-    m_Address: Assets/Sounds/SFX/Rat/RatHit.ogg
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -92,18 +67,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9ed08397b3fef21418662ed63130d301
-    m_Address: Assets/Sounds/SFX/WoodenBarrier.ogg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a360c9ac9532bde44ac815403ab03c52
     m_Address: Assets/Materials/PickupParticle.mat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a683c76e59dd6b04a9420526560624a0
-    m_Address: Assets/Sounds/SFX/Rat/RatLoop2.ogg
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -154,6 +119,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 530bb4bbf64f6a8498aac9f9a1644e3e
     m_Address: Assets/Stylized Lava Materials/Lava04/M_Lava04.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 602915e28ab7f344bb505512ebf21e0b
+    m_Address: Assets/Prefabs/Powerup/dbl_Group_001.mat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

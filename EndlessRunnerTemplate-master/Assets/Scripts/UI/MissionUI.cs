@@ -31,19 +31,7 @@ public class MissionUI : MonoBehaviour
                 entry.transform.SetParent(missionPlace, false);
                 entry.FillWithMission(PlayerData.instance.missions[i], this);
             }
-            else
-            {
-                AsyncOperationHandle op = addMissionButtonPrefab.InstantiateAsync();
-                yield return op;
-                if (op.Result == null || !(op.Result is GameObject))
-                {
-                    Debug.LogWarning(string.Format("Unable to load button {0}.", addMissionButtonPrefab.Asset.name));
-                    yield break;
-                }
-                AdsForMission obj = (op.Result as GameObject)?.GetComponent<AdsForMission>();
-                obj.missionUI = this;
-                obj.transform.SetParent(missionPlace, false);
-            }
+           
         }
     }
 

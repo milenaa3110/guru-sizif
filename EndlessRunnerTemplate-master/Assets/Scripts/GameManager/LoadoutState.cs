@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System;
 
 #if UNITY_ANALYTICS
 using UnityEngine.Analytics;
@@ -77,7 +78,6 @@ public class LoadoutState : AState
         skyMeshFilter.gameObject.SetActive(true);
         UIGroundFilter.gameObject.SetActive(true);
 
-        // Reseting the global blinking value. Can happen if the game unexpectedly exited while still blinking
         Shader.SetGlobalFloat("_BlinkingValue", 0.0f);
 
         if (MusicPlayer.instance.GetStem(0) != menuTheme)
@@ -88,7 +88,6 @@ public class LoadoutState : AState
 
         if(m_PowerupToUse != Consumable.ConsumableType.NONE)
         {
-            //if we come back from a run and we don't have any more of the powerup we wanted to use, we reset the powerup to use to NONE
             if (!PlayerData.instance.consumables.ContainsKey(m_PowerupToUse) || PlayerData.instance.consumables[m_PowerupToUse] == 0)
                 m_PowerupToUse = Consumable.ConsumableType.NONE;
         }
@@ -111,8 +110,6 @@ public class LoadoutState : AState
         if (gs != null)
         {
 			gs.currentModifier = m_CurrentModifier;
-			
-            // We reset the modifier to a default one, for next run (if a new modifier is applied, it will replace this default one before the run starts)
 			m_CurrentModifier = new Modifier();
 
 			if (m_PowerupToUse != Consumable.ConsumableType.NONE)
@@ -312,7 +309,7 @@ public class LoadoutState : AState
 	void PopulatePowerup()
 	{
 		powerupIcon.gameObject.SetActive(true);
-
+        Debug.Log(PlayerData.instance.consumables.Count);
         if (PlayerData.instance.consumables.Count > 0)
         {
             Consumable c = ConsumableDatabase.GetConsumbale(m_PowerupToUse);
@@ -341,7 +338,7 @@ public class LoadoutState : AState
 		do
 		{
 			m_UsedPowerupIndex += dir;
-			if(m_UsedPowerupIndex >= (int)Consumable.ConsumableType.MAX_COUNT)
+            if (m_UsedPowerupIndex >= (int)Consumable.ConsumableType.MAX_COUNT)
 			{
 				m_UsedPowerupIndex = 0; 
 			}

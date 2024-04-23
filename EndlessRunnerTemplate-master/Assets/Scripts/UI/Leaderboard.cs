@@ -24,14 +24,12 @@ public class Leaderboard : MonoBehaviour
 
 	public void Populate()
 	{
-		// Start by making all entries enabled & putting player entry last again.
 		playerEntry.transform.SetAsLastSibling();
 		for(int i = 0; i < entriesCount; ++i)
 		{
 			entriesRoot.GetChild(i).gameObject.SetActive(true);
 		}
 
-		// Find all index in local page space.
 		int localStart = 0;
 		int place = -1;
 		int localPlace = -1;
@@ -59,7 +57,6 @@ public class Leaderboard : MonoBehaviour
 
             if (hs == playerEntry || hs == null)
 			{
-				// We skip the player entry.
 				continue;
 			}
 
@@ -75,8 +72,6 @@ public class Leaderboard : MonoBehaviour
 		    else
 		        hs.gameObject.SetActive(false);
 		}
-
-		// If we force the player to be displayed, we enable it even if it was disabled from elsewhere
 		if (forcePlayerDisplay) 
 			playerEntry.gameObject.SetActive(true);
 
