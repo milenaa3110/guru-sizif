@@ -35,7 +35,7 @@ public class MissionEntry : MonoBehaviour
             claimButton.gameObject.SetActive(false);
             progressText.gameObject.SetActive(true);
 
-			background.color = notCompletedColor;
+			//background.color = notCompletedColor;
 
 			progressText.color = Color.black;
 			descText.color = completedColor;
