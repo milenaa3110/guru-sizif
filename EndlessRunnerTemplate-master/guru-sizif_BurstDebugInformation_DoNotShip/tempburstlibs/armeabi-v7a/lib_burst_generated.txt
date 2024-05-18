@@ -36,6 +36,7 @@ Library: C:\Users\Milena\Documents\GitHub\guru-sizif\EndlessRunnerTemplate-maste
 --assembly-defines=Unity.Services.Core.Scheduler;
 --assembly-defines=Unity.Services.Core.Telemetry;
 --assembly-defines=Unity.Services.Core.Threading;
+--assembly-defines=Unity.TextMeshPro;
 --assembly-defines=UnityEngine;
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Milena\Documents\GitHub\guru-sizif\EndlessRunnerTemplate-master\Temp\Burst
@@ -88,6 +89,7 @@ Library: C:\Users\Milena\Documents\GitHub\guru-sizif\EndlessRunnerTemplate-maste
 --assembly-defines=Unity.Services.Core.Scheduler;
 --assembly-defines=Unity.Services.Core.Telemetry;
 --assembly-defines=Unity.Services.Core.Threading;
+--assembly-defines=Unity.TextMeshPro;
 --assembly-defines=UnityEngine;
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Milena\Documents\GitHub\guru-sizif\EndlessRunnerTemplate-master\Temp\Burst

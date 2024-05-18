@@ -87,7 +87,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: e4f6a1a44a27c5848b24b30a9196ebca, type: 3}
   activatedSound: {fileID: 8300000, guid: 3f61aa3fe44736c4485341551a090e78, type: 3}
   ActivatedParticleReference:
-    m_AssetGUID: 
+    m_AssetGUID: cb8a481413e1e1d43aac95d00d81eea7
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

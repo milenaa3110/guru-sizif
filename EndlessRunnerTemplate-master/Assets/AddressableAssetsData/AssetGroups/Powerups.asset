@@ -64,12 +64,14 @@ MonoBehaviour:
   - m_GUID: e2b44612d7001414bad067f783810586
     m_Address: SpeedUp
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - default
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: baace4cf34c28f241814b45a1505e855
     m_Address: SlowDown
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - default
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 735e874f947d0e143a6b4e83f8a7283a, type: 2}

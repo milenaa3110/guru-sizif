@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System;
+using TMPro;
 
 #if UNITY_ANALYTICS
 using UnityEngine.Analytics;
@@ -42,7 +43,10 @@ public class LoadoutState : AState
 	public MeshFilter skyMeshFilter;
     public MeshFilter UIGroundFilter;
 
+    public TMP_Dropdown audioClipDropdown;
 	public AudioClip menuTheme;
+    public AudioClip[] themesForGame;
+    public AudioClip selectedTheme;
 
 
     [Header("Prefabs")]
@@ -72,11 +76,13 @@ public class LoadoutState : AState
         missionPopup.gameObject.SetActive(false);
 
         charNameDisplay.text = "";
-
+        selectedTheme = themesForGame[0];
         k_UILayer = LayerMask.NameToLayer("UI");
 
         skyMeshFilter.gameObject.SetActive(true);
         UIGroundFilter.gameObject.SetActive(true);
+
+        PopulateAudioClipDropdown();
 
         Shader.SetGlobalFloat("_BlinkingValue", 0.0f);
 
@@ -94,7 +100,18 @@ public class LoadoutState : AState
 
         Refresh();
     }
+    private void PopulateAudioClipDropdown() {
+        audioClipDropdown.options.Clear();
+        foreach (AudioClip clip in themesForGame) {
+            audioClipDropdown.options.Add(new TMP_Dropdown.OptionData(clip.name));
+        }
+        audioClipDropdown.onValueChanged.AddListener(SelectAudioClip);
+    }
 
+    private void SelectAudioClip(int index)
+    {
+        selectedTheme = themesForGame[index];
+    }
     public override void Exit(AState to)
     {
         missionPopup.gameObject.SetActive(false);

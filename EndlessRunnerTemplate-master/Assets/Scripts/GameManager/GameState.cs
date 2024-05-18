@@ -25,7 +25,6 @@ public class GameState : AState
     public TrackManager trackManager;
     public CharacterInputController controller;
 
-    public AudioClip gameTheme;
 
     [Header("UI")]
     public Text coinText;
@@ -50,6 +49,7 @@ public class GameState : AState
 
     [Header("Prefabs")]
     public GameObject PowerupIconPrefab;
+    public LoadoutState ls;
 
     public Modifier currentModifier = new Modifier();
 
@@ -87,10 +87,10 @@ public class GameState : AState
         {
             m_LifeHearts[i] = lifeRectTransform.GetChild(i).GetComponent<Image>();
         }
-
-        if (MusicPlayer.instance.GetStem(0) != gameTheme)
+       
+        if (MusicPlayer.instance.GetStem(0) != ls.selectedTheme)
         {
-            MusicPlayer.instance.SetStem(0, gameTheme);
+            MusicPlayer.instance.SetStem(0, ls.selectedTheme);
             CoroutineHandler.StartStaticCoroutine(MusicPlayer.instance.RestartAllStems());
         }
 

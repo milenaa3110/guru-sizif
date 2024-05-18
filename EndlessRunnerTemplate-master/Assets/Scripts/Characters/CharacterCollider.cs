@@ -163,9 +163,9 @@ public class CharacterCollider : MonoBehaviour
 
 			
 			controller.currentLife -= 1;
-			
+            Handheld.Vibrate();
 
-			controller.character.animator.SetTrigger(s_HitHash);
+            controller.character.animator.SetTrigger(s_HitHash);
 
 			if (controller.currentLife > 0)
 			{
@@ -207,7 +207,7 @@ public class CharacterCollider : MonoBehaviour
 
             
 			controller.currentLife = 0;
-            
+            Handheld.Vibrate();
             controller.character.animator.SetTrigger(s_FallHash);
             FallIntoHole();
             if (controller.currentLife > 0)

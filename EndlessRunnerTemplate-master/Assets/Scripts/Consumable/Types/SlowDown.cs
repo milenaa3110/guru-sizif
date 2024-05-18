@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SlowDown : Consumable
@@ -8,7 +8,7 @@ public class SlowDown : Consumable
     {
         return "Paunova frula";
     }
-    
+
     public override ConsumableType GetConsumableType()
     {
         return ConsumableType.SLOW_DOWN;
@@ -24,23 +24,20 @@ public class SlowDown : Consumable
         return 0;
     }
 
+    private float currentSpeed = -1f;
+
     public override IEnumerator Started(CharacterInputController c)
     {
         yield return base.Started(c);
-        if (c.trackManager.speed!= c.trackManager.minSpeed) {
-            c.trackManager.speed -= 1;
-        }
-        
+        currentSpeed = c.trackManager.speed;
+        c.trackManager.speed -= 2;
+
     }
 
     public override void Ended(CharacterInputController c)
     {
         base.Ended(c);
 
-        if (c.trackManager.speed != c.trackManager.maxSpeed)
-        {
-            c.trackManager.speed += 1;
-        }
-
+        c.trackManager.speed = currentSpeed;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class DataDeleteConfirmation : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class DataDeleteConfirmation : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
+        m_LoadoutState.audioClipDropdown.gameObject.SetActive(true);
     }
 
     public void Confirm()

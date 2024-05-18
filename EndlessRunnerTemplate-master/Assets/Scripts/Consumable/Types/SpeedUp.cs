@@ -23,14 +23,13 @@ public class SpeedUp : Consumable
     {
         return 0;
     }
+    private float currentSpeed;
 
     public override IEnumerator Started(CharacterInputController c)
     {
         yield return base.Started(c);
-        if (c.trackManager.speed != c.trackManager.maxSpeed)
-        {
-            c.trackManager.speed += 1;
-        }
+        currentSpeed = c.trackManager.speed;
+        c.trackManager.speed +=2;
 
     }
 
@@ -38,9 +37,6 @@ public class SpeedUp : Consumable
     {
         base.Ended(c);
 
-        if (c.trackManager.speed != c.trackManager.minSpeed)
-        {
-            c.trackManager.speed -= 1;
-        }
+        c.trackManager.speed = currentSpeed;
     }
 }

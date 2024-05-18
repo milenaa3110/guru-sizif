@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class SettingPopup : MonoBehaviour
 {
@@ -26,12 +27,14 @@ public class SettingPopup : MonoBehaviour
     {
         gameObject.SetActive(true);
         UpdateUI();
+        loadoutState.audioClipDropdown.gameObject.SetActive(true);
     }
 
     public void Close()
     {
 		PlayerData.instance.Save ();
         gameObject.SetActive(false);
+        loadoutState.audioClipDropdown.gameObject.SetActive(false);
     }
 
     void UpdateUI()
@@ -48,6 +51,7 @@ public class SettingPopup : MonoBehaviour
     public void DeleteData()
     {
         confirmationPopup.Open(loadoutState);
+        loadoutState.audioClipDropdown.gameObject.SetActive(false);
     }
 
 
